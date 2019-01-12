@@ -1,7 +1,7 @@
 📂 [**Click Here**](https://goo.gl/7NR3Da) - Sign up for Google's Suite for Business - Unlimited Space
 
 📂 [**Click Here**](https://controlpanel.newshosting.com/signup/index.php?promo=partners&a_aid=5a65169240efd&a_bid=5ecfe99b) - NZB's with from NewsHost - PG Members Receive a 58% Discount
-
+ 
 <p align="center">
   <a href="https://plexguide.com/forums" target="_blank"><img src="https://plexguide.com/wikipics/logo-forums.png" width="160"/>   
   <a href="https://github.com/Admin9705/PlexGuide.com-The-Awesome-Plex-Server/wiki" target="_blank"><img src="https://plexguide.com/wikipics/logo-wiki.png" width="160"/>
