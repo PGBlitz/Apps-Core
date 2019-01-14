@@ -190,7 +190,7 @@
             path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
             section: Preferences
             option: Queueing\MaxActiveDownloads
-            value: 5
+            value: 10
             state: present
 
         - name: Set MaxActiveTorrents
@@ -198,7 +198,7 @@
             path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
             section: Preferences
             option: Queueing\MaxActiveTorrents
-            value: 10
+            value: 100
             state: present
 
         - name: Set MaxActiveUploads
@@ -206,7 +206,7 @@
             path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
             section: Preferences
             option: Queueing\MaxActiveUploads
-            value: 10
+            value: 100
             state: present
 
         - name: Set GlobalMaxSeedingMinutes
@@ -230,7 +230,7 @@
             path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
             section: Preferences
             option: Bittorrent\MaxRatioAction
-            value: 0
+            value: 1
             state: present
 
         - name: Set default user - plexguide
@@ -240,6 +240,15 @@
             option: WebUI\Username
             value:
             allow_no_value: yes
+            force: yes
+            state: present
+        
+        - name: disanle csrf
+          ini_file:
+            path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
+            section: Preferences
+            option: WebUI\CSRFProtection
+            value: false
             force: yes
             state: present
 
