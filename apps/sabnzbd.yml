@@ -55,15 +55,16 @@
           PGID: 1000
 
     # MAIN DEPLOYMENT #############################################################
+    # Sab needs incomplete always because it doesn't make it optional. So this must be here for sab.
     - name: Creating incomplete paths
       file: 'path={{item}} state=directory mode=0775 owner=1000 group=1000'
       with_items:
-        - '{{path.stdout}}/{{pgrole}}'
-        - '{{path.stdout}}/{{pgrole}}/tv'
-        - '{{path.stdout}}/{{pgrole}}/movies'
-        - '{{path.stdout}}/{{pgrole}}/ebooks'
-        - '{{path.stdout}}/{{pgrole}}/abooks'
-        - '{{path.stdout}}/{{pgrole}}/xxx'
+        - '{{path.stdout}}/incomplete/{{pgrole}}'
+        - '{{path.stdout}}/incomplete/{{pgrole}}/tv'
+        - '{{path.stdout}}/incomplete/{{pgrole}}/movies'
+        - '{{path.stdout}}/incomplete/{{pgrole}}/ebooks'
+        - '{{path.stdout}}/incomplete/{{pgrole}}/abooks'
+        - '{{path.stdout}}/incomplete/{{pgrole}}/xxx'
       when: incomplete.stdout | length == 0
       ignore_errors: yes
 
