@@ -18,18 +18,10 @@ _**Table of Contents**_
 ----
 # 1. General Intro
 
-**PG Box Community:** PG Community is a PG repo that collects and stores accepted user container writeups for community usage install. User can add programs such as Radarr4k or other unique programs that others may want to utlize.
+**PG Box Core:** PG Core is a PG repo that collects and stores core containers for install.
 
 <p align="center"><kbd><img src="https://plexguide.com/wikipics/pglogo-move.gif" width="400""></kbd></p>
 <p align="center"><b>Manage PlexGuide - AnyTime, Anywhere!</b></p>
-
-Forum Node for Community Box: [ CLICK HERE ](https://plexguide.com/forums/pg-app-community-box.191/)
-
-**WARNING: Wiki Under Construction**
-
-(BETTER EXAMPLES will be provided), but Radarr4k and Sonarr4k serve as general containers until posted!
-
-In order for apps show up under the Community App Store, users must select or push apps from within the app folder of this repo. Do not worry, the apps automatically show up under the community app store and are segerated from the official containers that are built and supported by PG.
  
 # 2. YouTube Video - Intro
 NOT READY
