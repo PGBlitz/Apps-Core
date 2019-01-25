@@ -263,14 +263,14 @@
           lineinfile:
             path: '/opt/appdata/{{pgrole}}/rutorrent/settings/config.php'
             regexp: '\$saveUploadedTorrents\s*=.*'
-            line: '$saveUploadedTorrents = false'
+            line: '$saveUploadedTorrents = false;'
             state: present
                   
         - name: overwrite uploaded Torrents
           lineinfile:
             path: '/opt/appdata/{{pgrole}}/rutorrent/settings/config.php'
             regexp: '\$overwriteUploadedTorrents\s*=.*'
-            line: '$overwriteUploadedTorrents = true'
+            line: '$overwriteUploadedTorrents = true;'
             state: present
                   
     - name: Restart Docker Container
