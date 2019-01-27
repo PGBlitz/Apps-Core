@@ -31,7 +31,8 @@
       with_items:
         - '{{path.stdout}}/nzb'
         - '{{path.stdout}}/downloads/{{pgrole}}/tmp'
-
+      force: yes
+      
     - name: 'Checking for existing app data'
       stat:
         path: /opt/appdata/{{pgrole}}/nzbget.conf
