@@ -92,7 +92,7 @@
         remote_src: yes
 
     - name: Copy rutorrent mobile plugin
-      copy: src=/tmp/rutorrentMobile-master dest=/opt/appdata/{{pgrole}}/plugins/theme/themes/mobile
+      copy: src=/tmp/rutorrentMobile-master/** dest=/opt/appdata/{{pgrole}}/plugins/theme/themes/mobile
 
     # CONFIGURATION ####################################################
     - name: rtorrent.rc creation
