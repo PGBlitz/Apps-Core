@@ -93,7 +93,10 @@
 
     - name: Copy rutorrent mobile plugin
       copy: src=/tmp/rutorrentMobile-master/** dest=/opt/appdata/{{pgrole}}/plugins/theme/themes/mobile
-
+      owner: 1000
+      group: 1000
+      mode: 0755
+      
     # CONFIGURATION ####################################################
     - name: rtorrent.rc creation
       wait_for:
