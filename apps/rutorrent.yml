@@ -83,6 +83,17 @@
         stop_timeout: '240'
         labels: '{{pg_labels}}'
 
+
+    # PLUGINS ####################################################
+    - name: Unarchive a file that needs to be downloaded (added in 2.0)
+      unarchive:
+        src: https://github.com/xombiemp/rutorrentMobile/archive/master.zip
+        dest: /tmp
+        remote_src: yes
+
+    - name: Copy rutorrent mobile plugin
+      copy: src=/tmp/rutorrentMobile-master dest=/opt/appdata/{{pgrole}}/plugins/theme/themes/mobile
+
     # CONFIGURATION ####################################################
     - name: rtorrent.rc creation
       wait_for:
