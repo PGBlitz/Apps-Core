@@ -90,10 +90,13 @@
         dest: /tmp
         remote_src: yes
 
+    - name: Move rutorrent mobile plugin
+      shell: mv /tmp/rutorrentMobile-master /tmp/mobile
+
     - name: Copy rutorrent mobile plugin
       copy: 
-        src: /tmp/rutorrentMobile-master/**
-        dest: /opt/appdata/{{pgrole}}/plugins/mobile
+        src: /tmp/mobile
+        dest: /opt/appdata/{{pgrole}}/plugins
         owner: 1000
         group: 1000
         mode: 0755
