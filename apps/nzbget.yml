@@ -25,14 +25,13 @@
     # FOLDER CREATION #############################################################
     - name: 'Including folders'
       include_tasks: '/opt/plexguide/containers/_folders.yml'
-      
+
     - name: Create nzb & tmp folder
-      file: "path={{item}} state=directory mode=0775 owner=1000 group=1000"
+      file: 'path={{item}} state=directory mode=0775 owner=1000 group=1000'
       with_items:
         - '{{path.stdout}}/nzb'
-        - '{{path.stdout}}/downloads/{{pgrole}}/tmp'
       force: yes
-      
+
     - name: 'Checking for existing app data'
       stat:
         path: /opt/appdata/{{pgrole}}/nzbget.conf
@@ -54,6 +53,7 @@
           - '/opt/appdata/{{pgrole}}:/config'
           - '{{path.stdout}}:{{path.stdout}}'
           - '/mnt:/mnt'
+          - '/tmp:/tmp'
 
     - name: 'Setting PG ENV'
       set_fact:
@@ -125,7 +125,7 @@
       lineinfile:
         path: '/opt/appdata/{{pgrole}}/nzbget.conf'
         regexp: '^TempDir\s*=.*'
-        line: 'TempDir={{path.stdout}}/downloads/{{pgrole}}/tmp'
+        line: 'TempDir=/tmp'
         state: present
 
     - name: Set NzbDir Location
