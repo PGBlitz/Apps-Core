@@ -228,7 +228,7 @@
             option: download_free
             value: 25G
             state: present
-    #      when: not inicheck.stat.exists
+      when: not inicheck.stat.exists
 
     - name: Restart {{pgrole}}
       docker_container:

@@ -73,7 +73,7 @@
         labels: '{{pg_labels}}'
 
     # CONFIGURATION ####################################################
-    - name: 'Wating for {{pgrole}} to start'
+    - name: 'Waiting for {{pgrole}} to initialize'
       wait_for:
       path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
       state: present
@@ -262,8 +262,7 @@
             allow_no_value: yes
             force: yes
             state: present
-
-      #when: not confcheck.stat.exists
+      when: not confcheck.stat.exists
 
       
     - name: Restart {{pgrole}}
