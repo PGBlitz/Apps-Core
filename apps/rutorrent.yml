@@ -27,9 +27,11 @@
     - name: 'Including cron job'
       include_tasks: '/opt/plexguide/containers/_core.yml'
 
-    # FOLDER CREATION #############################################################
     - name: 'Including folders'
-      include_tasks: '/opt/plexguide/containers/_folders.yml'
+      include_tasks: '/opt/plexguide/containers/_downloaders.yml'
+
+    - name: 'Including plugins'
+      include_tasks: '/opt/plexguide/containers/_plugins.yml'
 
     - name: Checking for existing app data
       stat:
@@ -84,7 +86,7 @@
         labels: '{{pg_labels}}'
 
     # PLUGINS ####################################################
-    - name: Unarchive a file that needs to be downloaded (added in 2.0)
+    - name: Download and unarchive rutorrent mobile
       unarchive:
         src: https://github.com/xombiemp/rutorrentMobile/archive/master.zip
         dest: /tmp

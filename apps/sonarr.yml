@@ -27,6 +27,9 @@
       with_items:
         - /opt/appdata/{{pgrole}}/mp4_automator
 
+    - name: 'Including plugins'
+      include_tasks: '/opt/plexguide/containers/_plugins.yml'
+
     - name: Install autoProcess.ini
       template:
         src: /opt/plexguide/containers/templates/sonarr/sonarr.ini

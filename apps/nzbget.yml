@@ -22,15 +22,17 @@
     - name: 'Including cron job'
       include_tasks: '/opt/plexguide/containers/_core.yml'
 
-    # FOLDER CREATION #############################################################
     - name: 'Including folders'
-      include_tasks: '/opt/plexguide/containers/_folders.yml'
+      include_tasks: '/opt/plexguide/containers/_downloaders.yml'
 
-    - name: Create nzb & tmp folder
+    - name: Create nzb folder
       file: 'path={{item}} state=directory mode=0775 owner=1000 group=1000'
       with_items:
         - '{{path.stdout}}/nzb'
       force: yes
+
+    - name: 'Including plugins'
+      include_tasks: '/opt/plexguide/containers/_plugins.yml'
 
     - name: 'Checking for existing app data'
       stat:
