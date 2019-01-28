@@ -85,23 +85,23 @@
         stop_timeout: '240'
         labels: '{{pg_labels}}'
 
-    # PLUGINS ####################################################
-    - name: Download and unarchive rutorrent mobile
-      unarchive:
-        src: https://github.com/xombiemp/rutorrentMobile/archive/master.zip
-        dest: /tmp
-        remote_src: yes
+    # # PLUGINS ####################################################
+    # - name: Download and unarchive rutorrent mobile
+    #   unarchive:
+    #     src: https://github.com/xombiemp/rutorrentMobile/archive/master.zip
+    #     dest: /tmp
+    #     remote_src: yes
 
-    - name: Move rutorrent mobile plugin
-      shell: mv /tmp/rutorrentMobile-master /tmp/mobile
+    # - name: Move rutorrent mobile plugin
+    #   shell: mv /tmp/rutorrentMobile-master /tmp/mobile
 
-    - name: Copy rutorrent mobile plugin
-      copy:
-        src: /tmp/mobile
-        dest: /opt/appdata/{{pgrole}}/plugins
-        owner: 1000
-        group: 1000
-        mode: 0755
+    # - name: Copy rutorrent mobile plugin
+    #   copy:
+    #     src: /tmp/mobile
+    #     dest: /opt/appdata/{{pgrole}}/plugins
+    #     owner: 1000
+    #     group: 1000
+    #     mode: 0755
 
     # CONFIGURATION ####################################################
     - name: 'Waiting for {{pgrole}} to initialize'
