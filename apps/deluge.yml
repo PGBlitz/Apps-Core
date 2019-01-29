@@ -102,6 +102,14 @@
         line: '"plugins_location": "/config/plugins",'
         state: present
 
+    - name: Set move completed location
+      lineinfile:
+        path: '/opt/appdata/{{pgrole}}/core.conf'
+        regexp: '"move_completed_path".*'
+        line: '"move_completed_path": "{{path.stdout}}/downloads/{{pgrole}}",'
+        state: present
+      when: incomplete.stdout | length == 0   
+
     - name: Set download location
       lineinfile:
         path: '/opt/appdata/{{pgrole}}/core.conf'
