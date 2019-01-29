@@ -74,6 +74,10 @@
         state: started
         labels: '{{pg_labels}}'
 
+# Needed for qbit
+    - name: wait 5 seconds
+      sleep: 5
+
     # CONFIGURATION ####################################################
     - name: 'Waiting for {{pgrole}} to initialize'
       wait_for:
