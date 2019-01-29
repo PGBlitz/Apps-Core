@@ -44,7 +44,7 @@
           - '/opt/appdata/{{pgrole}}:/config'
           - '{{path.stdout}}:{{path.stdout}}'
           - '/mnt:/mnt'
-          
+
     - name: 'Setting PG ENV'
       set_fact:
         pg_env:
@@ -79,7 +79,7 @@
       wait_for:
       path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
       state: present
-      
+
     - name: 'Stopping {{pgrole}}'
       docker_container:
         name: '{{pgrole}}'
@@ -119,7 +119,6 @@
         value: false
         state: present
       when: incomplete.stdout | length == 0
-
 
     # FIRST TIME CONFIGURATION ####################################################
     - name: 'Configuring {{pgrole}} for first time use'
@@ -236,16 +235,6 @@
             value: 1
             state: present
 
-        - name: Set default user - plexguide
-          ini_file:
-            path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
-            section: Preferences
-            option: WebUI\Username
-            value:
-            allow_no_value: yes
-            force: yes
-            state: present
-        
         - name: Disable csrf
           ini_file:
             path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
@@ -254,19 +243,9 @@
             value: false
             force: yes
             state: present
-
-        - name: Set default pass - plexguide
-          ini_file:
-            path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
-            section: Preferences
-            option: WebUI\Password_ha1
-            value:
-            allow_no_value: yes
-            force: yes
-            state: present
+            
       when: not confcheck.stat.exists
 
-      
     - name: Restart {{pgrole}}
       docker_container:
         name: '{{pgrole}}'
