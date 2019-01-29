@@ -301,6 +301,7 @@
             regexp: '\$overwriteUploadedTorrents\s*=.*'
             line: '$overwriteUploadedTorrents = true;'
             state: present
+            
       when: not rccheck.stat.exists
 
     - name: Restart Docker Container

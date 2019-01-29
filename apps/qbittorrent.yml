@@ -113,14 +113,13 @@
         state: present
       when: incomplete.stdout | length == 0
 
-    - name: Set TempPathEnabled when incomplete is undefined
+    - name: Set TempPathEnabled
       ini_file:
         path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
         section: Preferences
         option: Downloads\TempPathEnabled
-        value: false
+        value: true
         state: present
-      when: incomplete.stdout | length == 0
 
     # FIRST TIME CONFIGURATION ####################################################
     - name: 'Configuring {{pgrole}} for first time use'
