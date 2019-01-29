@@ -158,7 +158,7 @@
         - name: Low Disk - Set to 20GB
           lineinfile:
             path: '/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc'
-            regexp: '^#*low_diskspace\s*=.*'
+            regexp: '^#*schedule\s*=\s*low_diskspace\s*=.*'
             line: 'schedule = low_diskspace,5,60,close_low_diskspace=20000M'
             state: present
 
