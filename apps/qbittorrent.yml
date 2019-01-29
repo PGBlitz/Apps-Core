@@ -79,6 +79,7 @@
       wait_for:
       path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
       state: present
+      timeout: 15
 
     - name: 'Stopping {{pgrole}}'
       docker_container:
