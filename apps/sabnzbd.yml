@@ -98,7 +98,8 @@
       wait_for:
         path: '/opt/appdata/{{pgrole}}/sabnzbd.ini'
         state: present
-
+        delay: 5
+        
     - name: 'Stopping {{pgrole}}'
       docker_container:
         name: '{{pgrole}}'

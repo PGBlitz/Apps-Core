@@ -93,7 +93,8 @@
       wait_for:
         path: '/opt/appdata/{{pgrole}}/core.conf'
         state: present
-
+        delay: 5
+        
     - name: Setting plugins directory
       lineinfile:
         path: '/opt/appdata/{{pgrole}}/core.conf'
