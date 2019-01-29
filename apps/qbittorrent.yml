@@ -172,7 +172,7 @@
             value: 1
             state: present
 
-        - name: Use incomplete extension
+        - name: Don't use incomplete extension
           ini_file:
             path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
             section: Preferences
@@ -244,7 +244,25 @@
             value: false
             force: yes
             state: present
-            
+
+        - name: Disable HostHeaderValidation
+          ini_file:
+            path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
+            section: Preferences
+            option: WebUI\HostHeaderValidation
+            value: false
+            force: yes
+            state: present
+
+        - name: Disable ClickjackingProtection
+          ini_file:
+            path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
+            section: Preferences
+            option: WebUI\ClickjackingProtection
+            value: false
+            force: yes
+            state: present
+
       when: not confcheck.stat.exists
 
     - name: Restart {{pgrole}}
