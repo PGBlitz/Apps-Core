@@ -30,6 +30,13 @@
     - name: 'Including folders'
       include_tasks: '/opt/plexguide/containers/_downloaders.yml'
 
+    # PLUGINS ####################################################
+    - name: Delete stock themes
+      shell: 'path={{item}} state=absent'
+      with_items:
+        - '/opt/appdata/{{pgrole}}/plugins/mobile'
+        - '/opt/appdata/{{pgrole}}/plugins/theme/themes/FlatUI_Dark'
+
     - name: 'Including plugins'
       include_tasks: '/opt/plexguide/containers/_plugins.yml'
 
@@ -84,32 +91,6 @@
         purge_networks: yes
         stop_timeout: '240'
         labels: '{{pg_labels}}'
-
-    # PLUGINS ####################################################
-    - name: Delete any existing temp and theme files
-      shell: 'path={{item}} state=absent'
-      with_items:
-        - '/tmp/rutorrentMobile-master'
-        - '/tmp/mobile'
-        - '/opt/appdata/{{pgrole}}/plugins/mobile'
-
-    - name: Download and unarchive rutorrent mobile
-      unarchive:
-        src: https://github.com/xombiemp/rutorrentMobile/archive/master.zip
-        dest: /tmp
-        remote_src: yes
-
-    - name: Move rutorrent mobile plugin
-      shell: mv /tmp/rutorrentMobile-master /tmp/mobile
-
-    - name: Copy rutorrent mobile plugin
-      copy:
-        src: /tmp/mobile
-        dest: /opt/appdata/{{pgrole}}/plugins
-        owner: 1000
-        group: 1000
-        mode: 0755
-        force: yes
 
     # CONFIGURATION ####################################################
     - name: 'Waiting for {{pgrole}} to initialize'
