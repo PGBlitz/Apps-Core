@@ -86,14 +86,14 @@
         labels: '{{pg_labels}}'
 
     # PLUGINS ####################################################
-    - name: Download and unarchive rutorrent mobile
-      shell: mv /tmp/rutorrentMobile-master /tmp/mobile
+    - name: Remove existing tmp download
+      shell: rm -rf /tmp/rutorrentMobile-master
+      ignore_errors: yes
 
     - name: Download and unarchive rutorrent mobile
       unarchive:
         src: https://github.com/xombiemp/rutorrentMobile/archive/master.zip
         dest: /tmp
-        force: yes
         remote_src: yes
 
     - name: Copy rutorrent mobile plugin
