@@ -98,7 +98,7 @@
 
     - name: Copy rutorrent mobile plugin
       copy:
-        src: /tmp/rutorrentMobile-master
+        src: /tmp/rutorrentMobile-master/**
         dest: /opt/appdata/{{pgrole}}/plugins/mobile
         owner: 1000
         group: 1000
