@@ -86,20 +86,20 @@
         labels: '{{pg_labels}}'
 
     # PLUGINS ####################################################
+    - name: Download and unarchive rutorrent mobile
+      shell: mv /tmp/rutorrentMobile-master /tmp/mobile
 
     - name: Download and unarchive rutorrent mobile
       unarchive:
         src: https://github.com/xombiemp/rutorrentMobile/archive/master.zip
         dest: /tmp
+        force: yes
         remote_src: yes
-
-    - name: Move rutorrent mobile plugin
-      shell: mv /tmp/rutorrentMobile-master /tmp/mobile
 
     - name: Copy rutorrent mobile plugin
       copy:
-        src: /tmp/mobile
-        dest: /opt/appdata/{{pgrole}}/plugins
+        src: /tmp/rutorrentMobile-master
+        dest: /opt/appdata/{{pgrole}}/plugins/mobile
         owner: 1000
         group: 1000
         mode: 0755
