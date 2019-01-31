@@ -86,9 +86,18 @@
         labels: '{{pg_labels}}'
 
     # PLUGINS ####################################################
-    - name: Remove existing tmp download
-      shell: rm -rf /tmp/rutorrentMobile-master
-      ignore_errors: yes
+    - name: Delete any existing temp and theme files
+      file: 'path={{item}} state=absent'
+      with_items:
+        - 'tmp/rutorrentMobile-master'
+        - 'tmp/mobile'
+        - '/opt/appdata/{{pgrole}}/plugins/mobile'
+
+    - name: Creating incomplete paths
+      file: 'path={{item}} state=directory mode=0775 owner=1000 group=1000'
+      with_items:
+        - '{{path.stdout}}/incomplete/{{pgrole}}'
+        - '{{path.stdout}}/incomplete/{{pgrole}}/tv'
 
     - name: Download and unarchive rutorrent mobile
       unarchive:
@@ -98,7 +107,7 @@
 
     - name: Copy rutorrent mobile plugin
       copy:
-        src: /tmp/rutorrentMobile-master/**
+        src: /tmp/rutorrentMobile-master/
         dest: /opt/appdata/{{pgrole}}/plugins/mobile
         owner: 1000
         group: 1000
@@ -301,7 +310,7 @@
             regexp: '\$overwriteUploadedTorrents\s*=.*'
             line: '$overwriteUploadedTorrents = true;'
             state: present
-            
+
       when: not rccheck.stat.exists
 
     - name: Restart Docker Container
