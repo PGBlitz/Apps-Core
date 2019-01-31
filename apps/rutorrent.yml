@@ -100,7 +100,7 @@
         remote_src: yes
 
     - name: Move rutorrent mobile plugin
-      shell: mv /tmp/rutorrentMobile-master /tmp/mobile
+      shell: mv /tmp/rutorrentMobile-master/* /tmp/mobile/*
 
     - name: Copy rutorrent mobile plugin
       copy:
