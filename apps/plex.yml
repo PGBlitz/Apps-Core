@@ -115,12 +115,6 @@
 
     - name: customConnections missing
       set_fact:
-        customConnections: 'http://{{ipaddress.stdout}}:32400,http://plex.{{domain.stdout}}'
-      when:
-        - plex_prefs.stat.exists == False
-
-    - name: customConnections missing
-      set_fact:
         customConnections: 'http://{{ipaddress.stdout}}:32400, http://plex.{domain.stdout}}:32400'
       when:
         - plex_prefs.stat.exists == False
