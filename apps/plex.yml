@@ -119,6 +119,12 @@
       when:
         - plex_prefs.stat.exists == False
 
+    - name: customConnections missing
+      set_fact:
+        customConnections: 'http://{{ipaddress.stdout}}:32400, https://plex.{{domain.stdout}}'
+      when:
+        - plex_prefs.stat.exists == False
+
     - name: 'Get Plex Custom URL'
       shell: 'echo https://plex.{{domain.stdout}}:443,http://plex.{{domain.stdout}}:80'
       register: plex_url
@@ -138,6 +144,7 @@
     - debug: msg="plex_advert_ip is {{plex_advert_ip}}"
       when: servertype.stdout == "remote"
 
+    ########################################## Other
     - name: Check /dev/dri exists
       stat:
         path: '/dev/dri'
