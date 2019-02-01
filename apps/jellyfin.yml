@@ -90,14 +90,14 @@
 
     - name: 'Stop {{pgrole}}'
       docker_container:
-        name: jellyfin
+        name: '{{pgrole}}'
         state: stopped
 
     - name: 'Turn Off Reporting'
       xml:
         path: '/opt/appdata/{{pgrole}}/config/system.xml'
         xpath: /ServerConfiguration/EnableAnonymousUsageReporting
-        value: "false"
+        value: 'false'
 
     - name: 'Restart {{pgrole}}'
       docker_container:
