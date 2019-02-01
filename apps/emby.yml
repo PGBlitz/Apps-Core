@@ -21,6 +21,11 @@
     - name: 'Including cron job'
       include_tasks: '/opt/plexguide/containers/_core.yml'
 
+    - name: 'XML Check'
+      stat:
+        path: /opt/appdata/{{pgrole}}/config/system.xml
+      register: xmlcheck
+      
     # LABELS ######################################################################
     - name: 'Adding Traefik'
       set_fact:
@@ -64,3 +69,33 @@
         expose: '8096'
         state: started
         labels: '{{pg_labels}}'
+
+    # FIRST TIME CONFIGURATION ###########################################################
+    - name: 'Configuring {{pgrole}} for first time use'
+      block:
+
+      - name: 'Pending XML Generation'
+        wait_for:
+          path: '/opt/appdata/{{pgrole}}/config/system.xml'
+          state: present
+
+      - name: 'Wait 5 Seconds'
+        wait_for:
+          timeout: 5
+
+      - name: 'Stop {{pgrole}}'
+        docker_container:
+          name: '{{pgrole}}'
+          state: stopped
+
+      - name: 'Turn Off Reporting'
+        xml:
+          path: '/opt/appdata/{{pgrole}}/config/system.xml'
+          xpath: /ServerConfiguration/EnableAnonymousUsageReporting
+          value: 'false'
+
+      - name: 'Restart {{pgrole}}'
+        docker_container:
+          name: '{{pgrole}}'
+          state: started
+      when: not xmlcheck.stat.exists
