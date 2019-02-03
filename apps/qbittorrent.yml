@@ -74,6 +74,27 @@
         state: started
         labels: '{{pg_labels}}'
 
+    - name: 'Stopping {{pgrole}}'
+      docker_container:
+        name: '{{pgrole}}'
+        state: stopped
+      delay: 5
+      timeout: 15
+
+    - name: 'Starting {{pgrole}}'
+      docker_container:
+        name: '{{pgrole}}'
+        state: started
+      delay: 5
+      timeout: 15
+
+    - name: 'Stopping {{pgrole}}'
+      docker_container:
+        name: '{{pgrole}}'
+        state: stopped
+      delay: 5
+      timeout: 15
+
     # CONFIGURATION ####################################################
     - name: 'Waiting for {{pgrole}} to initialize'
       wait_for:
@@ -86,6 +107,8 @@
       docker_container:
         name: '{{pgrole}}'
         state: stopped
+      timeout: 15
+      delay: 5
 
     - name: Set SavePath
       ini_file:
@@ -262,7 +285,25 @@
             value: false
             force: yes
             state: present
+            
+        - name: Set ServerDomains
+          ini_file:
+            path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
+            section: Preferences
+            option: WebUI\ServerDomains
+            value: '*'
+            force: yes
+            state: present
 
+        - name: Set Address
+          ini_file:
+            path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
+            section: Preferences
+            option: WebUI\Address
+            value: '*'
+            force: yes
+            state: present
+            
       when: not confcheck.stat.exists
 
     - name: Restart {{pgrole}}
