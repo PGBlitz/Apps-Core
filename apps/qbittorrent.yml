@@ -23,7 +23,7 @@
       include_tasks: '/opt/plexguide/containers/_core.yml'
 
     - name: 'Including folders'
-      include_tasks: '/opt/plexguide/containers/_folders.yml'
+      include_tasks: '/opt/plexguide/containers/_downloaders.yml'
 
     - name: 'Including plugins'
       include_tasks: '/opt/plexguide/containers/_plugins.yml'
@@ -73,27 +73,6 @@
               - '{{pgrole}}'
         state: started
         labels: '{{pg_labels}}'
-
-    - name: 'Stopping {{pgrole}}'
-      docker_container:
-        name: '{{pgrole}}'
-        state: stopped
-      delay: 5
-      timeout: 15
-
-    - name: 'Starting {{pgrole}}'
-      docker_container:
-        name: '{{pgrole}}'
-        state: started
-      delay: 5
-      timeout: 15
-
-    - name: 'Stopping {{pgrole}}'
-      docker_container:
-        name: '{{pgrole}}'
-        state: stopped
-      delay: 5
-      timeout: 15
 
     # CONFIGURATION ####################################################
     - name: 'Waiting for {{pgrole}} to initialize'
