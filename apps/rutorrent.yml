@@ -142,11 +142,11 @@
             line: 'download_rate = 100000'
             state: present
 
-        - name: Low Disk - Set to 20GB
+        - name: Low Disk - Set to 5GB
           lineinfile:
             path: '/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc'
             regexp: '^#*schedule\s*=\s*low_diskspace\s*=.*'
-            line: 'schedule = low_diskspace,5,60,close_low_diskspace=20000M'
+            line: 'schedule = low_diskspace,5,60,close_low_diskspace=5000M'
             state: present
 
         - name: Global Upload to Unlmited
