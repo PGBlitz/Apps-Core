@@ -42,7 +42,7 @@
 
     - name: Checking for existing app data
       stat:
-        path: '/opt/appdata/{{pgrole}}rutorrent/rtorrent/rtorrent.rc'
+        path: '/opt/appdata/{{pgrole}}/rutorrent/rtorrent/rtorrent.rc'
       register: rccheck
 
     # LABELS ######################################################################
