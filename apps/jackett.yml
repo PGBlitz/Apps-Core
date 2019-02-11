@@ -105,3 +105,8 @@
             line: '  "BlackholeDir": "{{path.stdout}}/torrent/watch",'
             state: present
       when: not datacheck.stat.exists
+
+    - name: Restart {{pgrole}}
+      docker_container:
+        name: '{{pgrole}}'
+        state: started

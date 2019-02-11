@@ -97,7 +97,7 @@
 
         - name: Restart {{pgrole}}
           docker_container:
-            name: tautulli
+            name: '{{pgrole}}'
             state: started
 
       when: not confcheck.stat.exists

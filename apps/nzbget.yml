@@ -277,5 +277,5 @@
 
     - name: Restart {{pgrole}}
       docker_container:
-        name: nzbget
+        name: '{{pgrole}}'
         state: started
