@@ -23,7 +23,7 @@
 
     # Migrate old appdata
     - name: Migrating appdata
-      shell: 'mv /opt/appdata/{{pgrole}}/Jackett/* /mnt/appdata/{{pgrole}}'
+      shell: 'mv /opt/appdata/{{pgrole}}/Jackett/* /opt/appdata/{{pgrole}}'
       ignore_errors: yes
 
     - name: Migrating appdata
