@@ -86,8 +86,6 @@
       docker_container:
         name: '{{pgrole}}'
         state: stopped
-        timeout: 15
-        delay: 5
 
     - name: Set SavePath
       ini_file:
