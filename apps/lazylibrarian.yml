@@ -383,9 +383,11 @@
                 option: dlpriority
                 value: 1
                 state: present
-
-        - name: Restart {{pgrole}}
-          docker_container:
-            name: '{{pgrole}}'
-            state: started
+      
       when: not inicheck.stat.exists
+
+    - name: Restart {{pgrole}}
+      docker_container:
+        name: '{{pgrole}}'
+        state: started
+
