@@ -21,6 +21,15 @@
     - name: 'Including cron job'
       include_tasks: '/opt/plexguide/containers/_core.yml'
 
+    # Migrate old appdata
+    - name: Migrating appdata
+    - shell: 'mv /opt/appdata/{{pgrole}}/Jackett/* /mnt/appdata/{{pgrole}}'
+    - ignore_errors: yes
+
+    - name: Migrating appdata
+    - shell: 'rmdir /opt/appdata/{{pgrole}}/Jackett'
+    - ignore_errors: yes
+
     # LABELS ######################################################################
     - name: 'Adding Traefik'
       set_fact:
@@ -33,8 +42,10 @@
     - name: 'Setting PG Volumes'
       set_fact:
         pg_volumes:
-          - '/opt/appdata/{{pgrole}}:/config'
+          - '/opt/appdata/{{pgrole}}:/config/Jackett'
           - '/etc/localtime:/etc/localtime:ro'
+          - '{{path.stdout}}:{{path.stdout}}'
+          - '/mnt:/mnt'
 
     - name: 'Setting PG ENV'
       set_fact:
@@ -59,3 +70,23 @@
               - '{{pgrole}}'
         state: started
         labels: '{{pg_labels}}'
+
+
+    # CONFIGURATION ####################################################
+    - name: 'Waiting for {{pgrole}} to initialize'
+      wait_for:
+        path: '/opt/appdata/{{pgrole}}/ServerConfig.json'
+        state: present
+        msg: ServerConfig.json creation failed
+
+    - name: 'Stopping {{pgrole}}'
+      docker_container:
+        name: '{{pgrole}}'
+        state: stopped
+
+    - name: Set torrent blackhole location
+      lineinfile:
+        path: '/opt/appdata/{{pgrole}}/ServerConfig.json'
+        regexp: '"BlackholeDir"\s*:.*'
+        line: '"BlackholeDir": "{{path.stdout}}/torrent/watch"'
+        state: present
