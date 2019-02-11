@@ -21,14 +21,21 @@
     - name: 'Including cron job'
       include_tasks: '/opt/plexguide/containers/_core.yml'
 
-    # Migrate old appdata
+    # MIGRATIONS (MANDATORY) ############################################################
+    - name: Checking for old app data
+      stat:
+        path: '/opt/appdata/{{pgrole}}/Jackett/ServerConfig.json'
+      register: olddatacheck
+
     - name: Migrating appdata
       shell: 'mv /opt/appdata/{{pgrole}}/Jackett/* /opt/appdata/{{pgrole}}'
       ignore_errors: yes
+      when: olddatacheck.stat.exists
 
     - name: Migrating appdata
       shell: 'rmdir /opt/appdata/{{pgrole}}/Jackett'
       ignore_errors: yes
+      when: olddatacheck.stat.exists
 
     - name: Checking for existing app data
       stat:
@@ -94,8 +101,7 @@
         - name: Set torrent blackhole location
           lineinfile:
             path: '/opt/appdata/{{pgrole}}/ServerConfig.json'
-            regexp: '"BlackholeDir"\s*:.*'
-            line: '"BlackholeDir": "{{path.stdout}}/torrent/watch"'
+            regexp: '\s*"BlackholeDir"\s*:.*'
+            line: '  "BlackholeDir": "{{path.stdout}}/torrent/watch",'
             state: present
-
-      #when: not datacheck.stat.exists
+      when: not datacheck.stat.exists
