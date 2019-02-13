@@ -365,7 +365,7 @@
                 path: '/opt/appdata/{{pgrole}}/config.ini'
                 section: Newznab0
                 option: host
-                value: nzbhydra2:5076
+                value: nzbhydra:5076
                 state: present
 
             - name: Setup hydra on Torznab0 host
@@ -373,7 +373,7 @@
                 path: '/opt/appdata/{{pgrole}}/config.ini'
                 section: Torznab0
                 option: host
-                value: nzbhydra2:5076/torznab
+                value: nzbhydra:5076/torznab
                 state: present
 
             - name: Setup hydra on Torznab0 priority
