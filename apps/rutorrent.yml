@@ -144,17 +144,17 @@
     - name: Set download completed move location
       lineinfile:
         path: "/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc"
-        regexp: '#*system.method.insert\s*=\s*d.get_finished_dir.*'
-        line: 'system.method.insert = d.get_finished_dir,simple,"cat={{path.stdout}}/downloads/{{pgrole}}/,$d.get_custom1="'
+        regexp: '#*method.insert\s*=\s*d.get_finished_dir.*'
+        line: 'method.insert = d.get_finished_dir,simple,"cat={{path.stdout}}/downloads/{{pgrole}}/,$d.get_custom1="'
         state: present
 
     - name: Enable download completed move
       lineinfile:
         path: "/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc"
-        regexp: '#*system.method.set_key\s*=\s*event.download.finished,move_complete.*'
-        line: 'system.method.set_key = event.download.finished,move_complete,"d.set_directory=$d.get_finished_dir=;execute=mkdir,-p,$d.get_finished_dir=;execute=mv,-u,$d.get_base_path=,$d.get_finished_dir="'
+        regexp: '#*method.set_key\s*=\s*event.download.finished,move_complete.*'
+        line: 'method.set_key = event.download.finished,move_complete,"d.set_directory=$d.get_finished_dir=;execute=mkdir,-p,$d.get_finished_dir=;execute=mv,-u,$d.get_base_path=,$d.get_finished_dir="'
         state: present
-
+        
     # FIRST TIME CONFIGURATION ####################################################
     - name: "Configuring {{pgrole}} for first time use"
       block:
