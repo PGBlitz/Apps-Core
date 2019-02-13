@@ -114,14 +114,14 @@
     - name: Set download location
       lineinfile:
         path: '/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc'
-        regexp: '^#*directory\s*=.*'
+        regexp: '#*directory\s*=.*'
         line: 'directory = {{path.stdout}}/downloads/{{pgrole}}'
         state: present
 
     - name: Set download location
       lineinfile:
         path: '/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc'
-        regexp: '^#*directory.default.set\s*=.*'
+        regexp: '#*directory.default.set\s*=.*'
         line: 'directory.default.set = {{path.stdout}}/downloads/{{pgrole}}'
         state: present
 
@@ -131,77 +131,77 @@
         - name: Upload Rate
           lineinfile:
             path: '/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc'
-            regexp: '^#*upload_rate\s*=.*'
+            regexp: '#*upload_rate\s*=.*'
             line: 'upload_rate = 100000'
             state: present
 
         - name: Download Rate
           lineinfile:
             path: '/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc'
-            regexp: '^#*download_rate\s*=.*'
+            regexp: '#*download_rate\s*=.*'
             line: 'download_rate = 100000'
             state: present
 
         - name: Low Disk - Set to 5GB
           lineinfile:
             path: '/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc'
-            regexp: '^#*schedule\s*=\s*low_diskspace\s*=.*'
+            regexp: '#*schedule\s*=\s*low_diskspace\s*=.*'
             line: 'schedule = low_diskspace,5,60,close_low_diskspace=5000M'
             state: present
 
         - name: Global Upload to Unlmited
           lineinfile:
             path: '/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc'
-            regexp: '^#*throttle.global_up.max_rate.set_kb\s*=.*'
+            regexp: '#*throttle.global_up.max_rate.set_kb\s*=.*'
             line: 'throttle.global_up.max_rate.set_kb = 0'
             state: present
 
         - name: MAX DL 1024
           lineinfile:
             path: '/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc'
-            regexp: '^#*throttle.max_downloads.global.set_kb\s*=.*'
+            regexp: '#*throttle.max_downloads.global.set_kb\s*=.*'
             line: 'throttle.max_downloads.global.set = 1024'
             state: present
 
         - name: No File Allocation
           lineinfile:
             path: '/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc'
-            regexp: '^#*system.file_allocate.set\s*=.*'
+            regexp: '#*system.file_allocate.set\s*=.*'
             line: 'system.file.allocate.set = 0'
             state: present
 
         - name: min_peers
           lineinfile:
             path: '/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc'
-            regexp: '^#*min_peers\s*=.*'
+            regexp: '#*min_peers\s*=.*'
             line: 'min_peers = 40'
             state: present
 
         - name: max_peers
           lineinfile:
             path: '/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc'
-            regexp: '^#*max_peers\s*=.*'
+            regexp: '#*max_peers\s*=.*'
             line: 'max_peers = 1200'
             state: present
 
         - name: max_uploads
           lineinfile:
             path: '/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc'
-            regexp: '^#*max_uploads\s*=.*'
+            regexp: '#*max_uploads\s*=.*'
             line: 'max_uploads = 15'
             state: present
 
         - name: max_downloads
           lineinfile:
             path: '/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc'
-            regexp: '^#*max_downloads\s*=.*'
+            regexp: '#*max_downloads\s*=.*'
             line: 'max_downloads = 10'
             state: present
 
         - name: Upload Rate
           lineinfile:
             path: '/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc'
-            regexp: '^#*upload_rate\s*=.*'
+            regexp: '#*upload_rate\s*=.*'
             line: 'upload_rate = 100000'
             state: present
 
