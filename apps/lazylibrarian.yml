@@ -74,7 +74,7 @@
         path: '/opt/appdata/{{pgrole}}/config.ini'
         state: present
         delay: 5
-        
+
     - name: 'Stopping {{pgrole}}'
       docker_container:
         name: '{{pgrole}}'
@@ -101,7 +101,7 @@
         path: '/opt/appdata/{{pgrole}}/config.ini'
         section: General
         option: download_dir
-        value: '{{path.stdout}}/downloads'
+        value: '{{path.stdout}}/downloads/sabnzbd/ebooks,{{path.stdout}}/downloads/sabnzbd/abooks,{{path.stdout}}/downloads/nzbget/ebooks,{{path.stdout}}/downloads/nzbget/abooks,{{path.stdout}}/downloads/rutorrent/ebooks,{{path.stdout}}/downloads/rutorrent/abooks,{{path.stdout}}/downloads/qbittorrent/ebooks,{{path.stdout}}/downloads/qbittorrent/abooks'
         state: present
 
     # FIRST TIME CONFIGURATION ####################################################
@@ -198,14 +198,6 @@
                 value: ebooks
                 state: present
 
-            - name: Set deluge pass
-              ini_file:
-                path: '/opt/appdata/{{pgrole}}/config.ini'
-                section: DELUGE
-                option: deluge_pass
-                value: plexguide
-                state: present
-
             - name: Set deluge port
               ini_file:
                 path: '/opt/appdata/{{pgrole}}/config.ini'
@@ -238,14 +230,6 @@
                 value: ebooks
                 state: present
 
-            - name: Set nzbget user
-              ini_file:
-                path: '/opt/appdata/{{pgrole}}/config.ini'
-                section: NZBGet
-                option: nzbget_user
-                value: plex
-                state: present
-
             - name: Set qbittorrent host
               ini_file:
                 path: '/opt/appdata/{{pgrole}}/config.ini'
@@ -270,52 +254,12 @@
                 value: ebooks
                 state: present
 
-            - name: Set qbittorrent user
-              ini_file:
-                path: '/opt/appdata/{{pgrole}}/config.ini'
-                section: QBITTORRENT
-                option: qbittorrent_user
-                value: plex
-                state: present
-
-            - name: Set qbittorrent pass
-              ini_file:
-                path: '/opt/appdata/{{pgrole}}/config.ini'
-                section: QBITTORRENT
-                option: qbittorrent_pass
-                value: guide
-                state: present
-
             - name: Set sabnzbd host
               ini_file:
                 path: '/opt/appdata/{{pgrole}}/config.ini'
                 section: SABnzbd
                 option: sab_host
                 value: sabnzbd
-                state: present
-
-            - name: Set sabnzbd api
-              ini_file:
-                path: '/opt/appdata/{{pgrole}}/config.ini'
-                section: SABnzbd
-                option: sab_api
-                value: abced78e11b70c659b8ca01b3e9a40a1
-                state: present
-
-            - name: Set sabnzbd user
-              ini_file:
-                path: '/opt/appdata/{{pgrole}}/config.ini'
-                section: SABnzbd
-                option: sab_user
-                value: plex
-                state: present
-
-            - name: Set sabnzbd pass
-              ini_file:
-                path: '/opt/appdata/{{pgrole}}/config.ini'
-                section: SABnzbd
-                option: sab_pass
-                value: guide
                 state: present
 
             - name: Set sabnzbd label
@@ -332,22 +276,6 @@
                 section: RTORRENT
                 option: rtorrent_host
                 value: rutorrent
-                state: present
-
-            - name: Set rtorrent user
-              ini_file:
-                path: '/opt/appdata/{{pgrole}}/config.ini'
-                section: RTORRENT
-                option: rtorrent_user
-                value: plex
-                state: present
-
-            - name: Set rtorrent pass
-              ini_file:
-                path: '/opt/appdata/{{pgrole}}/config.ini'
-                section: RTORRENT
-                option: rtorrent_pass
-                value: guide
                 state: present
 
             - name: Set rtorrent label
@@ -383,11 +311,10 @@
                 option: dlpriority
                 value: 1
                 state: present
-      
+
       when: not inicheck.stat.exists
 
     - name: Restart {{pgrole}}
       docker_container:
         name: '{{pgrole}}'
         state: started
-
