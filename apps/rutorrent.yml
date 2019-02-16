@@ -19,6 +19,8 @@
         extport2: "51413"
         intport3: "5000"
         extport3: "5000"
+        intport4: "6881/udp"
+        extport4: "6881"
         image: "linuxserver/rutorrent"
 
     # CORE (MANDATORY) ############################################################
@@ -124,8 +126,6 @@
     #     line: "directory.default.set = {{incomplete.stdout}}/incomplete/{{pgrole}}"
     #     state: present
     #   when: incomplete.stdout | length > 0
-
-    ## NOTE: Can't use incomplete handling either in rtorrent.rc or via autotools because sonarr/radarr doesn't get the updated path.
 
     - name: Set download location
       lineinfile:
