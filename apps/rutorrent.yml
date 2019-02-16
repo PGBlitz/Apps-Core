@@ -145,15 +145,30 @@
       lineinfile:
         path: "/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc"
         regexp: '#*method.insert\s*=\s*d.get_finished_dir.*'
-        line: 'method.insert = d.get_finished_dir,simple,"cat={{path.stdout}}/downloads/{{pgrole}}/,$d.get_custom1="'
+        line: 'method.insert = d.get_finished_dir, simple, "cat={path.stdout}}/downloads/{{pgrole}}/,$d.custom1="'
+        state: present
+
+    - name: Set download data path location
+      lineinfile:
+        path: "/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc"
+        regexp: '#*method.insert\s*=\s*d.data_path.*'
+        line: 'method.insert = d.data_path, simple, "if=(d.is_multi_file), (cat,(d.directory),/), (cat,(d.directory),/,(d.name))"'
         state: present
 
     - name: Enable download completed move
       lineinfile:
         path: "/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc"
-        regexp: '#*method.set_key\s*=\s*event.download.finished,move_complete.*'
-        line: 'method.set_key = event.download.finished,move_complete,"d.set_directory=$d.get_finished_dir=;execute=mkdir,-p,$d.get_finished_dir=;execute=mv,-u,$d.get_base_path=,$d.get_finished_dir="'
+        regexp: '#*method.insert\s*=\s*d.move_to_complete,\s*simple.*'
+        line: 'method.insert = d.move_to_complete, simple, "d.directory.set=$argument.1=; execute=mkdir,-p,$argument.1=; execute=mv,-u,$argument.0=,$argument.1=; d.save_full_session="'
         state: present
+
+    - name: Enable download completed move event
+      lineinfile:
+        path: "/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc"
+        regexp: '#*method.set_key\s*=\s*event.download.finished,move_complete.*'
+        line: 'method.set_key = event.download.finished,move_complete,"d.move_to_complete=$d.data_path=,$d.get_finished_dir="'
+        state: present
+
         
     # FIRST TIME CONFIGURATION ####################################################
     - name: "Configuring {{pgrole}} for first time use"
