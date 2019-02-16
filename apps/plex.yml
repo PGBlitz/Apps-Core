@@ -241,13 +241,6 @@
         labels: '{{default_labels}}'
       when: servertype.stdout == "local"
 
-    ######################################## ENDING PHASE
-    - debug: msg="Final Notes - Remote Plex | IP Address {{ipaddress.stdout}} | Plex Type {{servertype.stdout}} | Token {{claim.stdout}}"
-      when: servertype.stdout == "remote"
-
-    - debug: msg="Final Notes - Local Plex | IP Address {{ipaddress.stdout}} | Plex Type {{servertype.stdout}}"
-      when: servertype.stdout == "local"
-
     ###################### Plex WebTools
     - name: Check WebTools
       stat:
@@ -278,3 +271,9 @@
         prompt: "\nWebTools Installed! [PRESS ENTER] to Continue"
       when:
         - webtools.stat.exists == False
+
+    - debug: msg="Final Notes - Remote Plex | IP Address {{ipaddress.stdout}} | Plex Type {{servertype.stdout}} | Token {{claim.stdout}}"
+      when: servertype.stdout == "remote"
+
+    - debug: msg="Final Notes - Local Plex | IP Address {{ipaddress.stdout}} | Plex Type {{servertype.stdout}}"
+      when: servertype.stdout == "local"
