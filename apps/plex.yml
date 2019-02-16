@@ -14,8 +14,23 @@
       set_fact:
         pgrole: 'plex'
         intport: '32400'
-        extport: '32400'
-        expose: '32400'
+        extport: '32400/tcp'
+        intport2: "3005"
+        extport2: "3005/tcp"
+        intport3: "8324"
+        extport3: "8324/tcp"
+        intport4: "32410"
+        extport4: "32410/udp"
+        intport5: "32412"
+        extport5: "32412/udp"
+        intport6: "32413"
+        extport6: "32413/udp"
+        intport7: "32414"
+        extport7: "32414/udp"
+        intport8: "33400"
+        extport8: "33400/tcp"
+        intport9: "33443"
+        extport9: "33443/tcp"
 
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
@@ -161,15 +176,15 @@
         image: 'plexinc/pms-docker:{{extension.stdout}}'
         pull: yes
         published_ports:
-          - '32400:32400/tcp'
-          - '3005:3005/tcp'
-          - '8324:8324/tcp'
-          - '32410:32410/udp'
-          - '32412:32412/udp'
-          - '32413:32413/udp'
-          - '32414:32414/udp'
-          - '33400:33400/tcp'
-          - '33443:33443/tcp'
+          - "{{extport}}:{{intport}}"
+          - "{{ports.stdout}}{{extport2}}:{{intport2}}"
+          - "{{ports.stdout}}{{extport3}}:{{intport3}}"
+          - "{{ports.stdout}}{{extport4}}:{{intport4}}"
+          - "{{ports.stdout}}{{extport5}}:{{intport5}}"
+          - "{{ports.stdout}}{{extport6}}:{{intport6}}"
+          - "{{ports.stdout}}{{extport7}}:{{intport7}}"
+          - "{{ports.stdout}}{{extport8}}:{{intport8}}"
+          - "{{ports.stdout}}{{extport9}}:{{intport9}}"
         env:
           PLEX_UID: '1000'
           PLEX_GID: '1000'
@@ -180,8 +195,6 @@
           - name: plexguide
             aliases:
               - plex
-        expose:
-          - 32400
         volumes: '{{default_volumes}}'
         devices: "{{ '/dev/dri:/dev/dri' if dev_dri.stat.exists == True | default(false) else omit }}"
         etc_hosts:
