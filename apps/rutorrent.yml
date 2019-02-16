@@ -15,12 +15,10 @@
         pgrole: "rutorrent"
         intport: "80"
         extport: "8999"
-        intport2: "51413"
-        extport2: "51413"
-        intport3: "5000"
-        extport3: "5000"
-        intport4: "6881/udp"
-        extport4: "6881"
+        intport2: "5000"
+        extport2: "5000"
+        intport3: "6881/udp"
+        extport3: "6881"
         image: "linuxserver/rutorrent"
 
     # CORE (MANDATORY) ############################################################
@@ -79,7 +77,6 @@
           - "{{ports.stdout}}{{extport}}:{{intport}}"
           - "{{ports.stdout}}{{extport2}}:{{intport2}}"
           - "{{ports.stdout}}{{extport3}}:{{intport3}}"
-          - "{{ports.stdout}}{{extport4}}:{{intport4}}"
         volumes: "{{pg_volumes}}"
         env: "{{pg_env}}"
         restart_policy: unless-stopped
