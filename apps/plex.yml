@@ -13,24 +13,24 @@
     - name: 'Set Known Facts'
       set_fact:
         pgrole: 'plex'
-        intport: '32400'
-        extport: '32400/tcp'
-        intport2: "3005"
-        extport2: "3005/tcp"
-        intport3: "8324"
-        extport3: "8324/tcp"
-        intport4: "32410"
-        extport4: "32410/udp"
-        intport5: "32412"
-        extport5: "32412/udp"
-        intport6: "32413"
-        extport6: "32413/udp"
-        intport7: "32414"
-        extport7: "32414/udp"
-        intport8: "33400"
-        extport8: "33400/tcp"
-        intport9: "33443"
-        extport9: "33443/tcp"
+        intport: '32400/tcp'
+        extport: '32400'
+        intport2: "3005/tcp"
+        extport2: "3005"
+        intport3: "8324/tcp"
+        extport3: "8324"
+        intport4: "32410/udp"
+        extport4: "32410"
+        intport5: "32412/udp"
+        extport5: "32412"
+        intport6: "32413/udp"
+        extport6: "32413"
+        intport7: "32414/udp"
+        extport7: "32414"
+        intport8: "33400/tcp"
+        extport8: "33400"
+        intport9: "33443/tcp"
+        extport9: "33443"
 
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
