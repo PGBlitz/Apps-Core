@@ -19,8 +19,6 @@
         extport2: "51413"
         intport3: "5000"
         extport3: "5000"
-        intport4: "6881/udp"
-        extport4: "6881"
         image: "linuxserver/rutorrent"
 
     # CORE (MANDATORY) ############################################################
@@ -111,34 +109,36 @@
     - name: "Setting permissions on appdata recursivley (this can take a while!)"
       shell: "chmod -R 775 /opt/appdata/{{pgrole}}"
 
-    - name: Set incomplete download location
+    # - name: Set incomplete download location
+    #   lineinfile:
+    #     path: "/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc"
+    #     regexp: '#*directory\s*=.*'
+    #     line: "directory = {{incomplete.stdout}}/incomplete/{{pgrole}}"
+    #     state: present
+    #   when: incomplete.stdout | length > 0
+
+    # - name: Set incomplete download location
+    #   lineinfile:
+    #     path: "/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc"
+    #     regexp: '#*directory.default.set\s*=.*'
+    #     line: "directory.default.set = {{incomplete.stdout}}/incomplete/{{pgrole}}"
+    #     state: present
+    #   when: incomplete.stdout | length > 0
+
+    ## NOTE: Can't use incomplete handling either in rtorrent.rc or via autotools because sonarr/radarr doesn't get the updated path.
+
+    - name: Set download location
       lineinfile:
         path: "/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc"
         regexp: '#*directory\s*=.*'
-        line: "directory = {{incomplete.stdout}}/incomplete/{{pgrole}}"
+        line: "directory = {{path.stdout}}/downloads/{{pgrole}}"
         state: present
-      when: incomplete.stdout | length > 0
 
-    - name: Set incomplete download location
+    - name: Set download location
       lineinfile:
         path: "/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc"
         regexp: '#*directory.default.set\s*=.*'
-        line: "directory.default.set = {{incomplete.stdout}}/incomplete/{{pgrole}}"
-        state: present
-      when: incomplete.stdout | length > 0
-
-    - name: Set incomplete download location
-      lineinfile:
-        path: "/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc"
-        regexp: '#*directory\s*=.*'
-        line: "directory = {{path.stdout}}/incomplete/{{pgrole}}"
-        state: present
-
-    - name: Set incomplete download location
-      lineinfile:
-        path: "/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc"
-        regexp: '#*directory.default.set\s*=.*'
-        line: "directory.default.set = {{path.stdout}}/incomplete/{{pgrole}}"
+        line: "directory.default.set = {{path.stdout}}/downloads/{{pgrole}}"
         state: present
 
     # - name: Set download completed move location
