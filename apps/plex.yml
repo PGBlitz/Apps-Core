@@ -230,8 +230,6 @@
           - name: plexguide
             aliases:
               - plex
-        expose:
-          - 32400
         volumes: '{{default_volumes}}'
         devices: "{{ '/dev/dri:/dev/dri' if dev_dri.stat.exists == True | default(false) else omit }}"
         etc_hosts:
