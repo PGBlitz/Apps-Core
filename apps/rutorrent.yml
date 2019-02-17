@@ -320,14 +320,14 @@
             line: "network.receive_buffer.size = 2"
             state: present
 
-        - name: Announce-Intervall Min rescan
+        - name: Announce-Interval Min rescan
           lineinfile:
             path: "/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc"
             regexp: '#*throttle.min_peers.seed.set\s*=.*'
             line: "throttle.min_peers.seed.set = 0"
             state: present
 
-        - name: Announce-Intervall Max rescan
+        - name: Announce-Interval Max rescan
           lineinfile:
             path: "/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc"
             regexp: '#*throttle.max_peers.seed.set\s*=.*'
