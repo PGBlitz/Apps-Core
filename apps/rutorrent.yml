@@ -23,10 +23,10 @@
 
     # CORE (MANDATORY) ############################################################
     - name: "Including cron job"
-      include_tasks: "/opt/plexguide/containers/_core.yml"
+      include_tasks: "/opt/coreapps/apps/_core.yml"
 
     - name: "Including folders"
-      include_tasks: "/opt/plexguide/containers/_downloaders.yml"
+      include_tasks: "/opt/coreapps/apps/_downloaders.yml"
 
     # PLUGINS ####################################################
     - name: Delete stock themes
@@ -36,7 +36,7 @@
         - "/opt/appdata/{{pgrole}}/plugins/theme/themes/FlatUI_Dark"
 
     - name: "Including plugins"
-      include_tasks: "/opt/plexguide/containers/_plugins.yml"
+      include_tasks: "/opt/coreapps/apps/_plugins.yml"
 
     - name: Checking for existing app data
       stat:
