@@ -1,7 +1,7 @@
 /*** Configurable Options ***/
 plugin.enableAutodetect = true;
 plugin.tabletsDetect = true;
-plugin.eraseWithDataDefault = false;
+plugin.eraseWithDataDefault = true;
 plugin.sort = '-addtime'; /* 'name', 'size', 'uploaded', 'downloaded', 'done', 'eta', 'ul', 'dl', 'ratio', 'addtime', 'seedingtime'. Add preceding negative for descending sort. */
 /*** End Configurable Options ***/
 

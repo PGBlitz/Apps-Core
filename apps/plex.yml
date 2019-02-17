@@ -13,13 +13,28 @@
     - name: 'Set Known Facts'
       set_fact:
         pgrole: 'plex'
-        intport: '32400'
+        intport: '32400/tcp'
         extport: '32400'
-        expose: '32400'
+        intport2: "3005/tcp"
+        extport2: "3005"
+        intport3: "8324/tcp"
+        extport3: "8324"
+        intport4: "32410/udp"
+        extport4: "32410"
+        intport5: "32412/udp"
+        extport5: "32412"
+        intport6: "32413/udp"
+        extport6: "32413"
+        intport7: "32414/udp"
+        extport7: "32414"
+        intport8: "33400/tcp"
+        extport8: "33400"
+        intport9: "33443/tcp"
+        extport9: "33443"
 
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
-      include_tasks: '/opt/plexguide/containers/_core.yml'
+      include_tasks: '/opt/coreapps/apps/_core.yml'
 
     # FACTS #######################################################################
     - name: 'Plex Server Network Type'
@@ -37,7 +52,7 @@
 
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
-      include_tasks: '/opt/plexguide/containers/_core.yml'
+      include_tasks: '/opt/coreapps/apps/_core.yml'
 
     ######################################### FOR BOTH
     - name: 'Set Default Labels'
@@ -161,17 +176,15 @@
         image: 'plexinc/pms-docker:{{extension.stdout}}'
         pull: yes
         published_ports:
-          - '32400:32400/tcp'
-          - '3005:3005/tcp'
-          - '8324:8324/tcp'
-          - '32469:32469/tcp'
-          - '1900:1900/udp'
-          - '32410:32410/udp'
-          - '32412:32412/udp'
-          - '32413:32413/udp'
-          - '32414:32414/udp'
-          - '33400:33400/tcp'
-          - '33443:33443/tcp'
+          - "{{extport}}:{{intport}}"
+          - "{{ports.stdout}}{{extport2}}:{{intport2}}"
+          - "{{ports.stdout}}{{extport3}}:{{intport3}}"
+          - "{{ports.stdout}}{{extport4}}:{{intport4}}"
+          - "{{ports.stdout}}{{extport5}}:{{intport5}}"
+          - "{{ports.stdout}}{{extport6}}:{{intport6}}"
+          - "{{ports.stdout}}{{extport7}}:{{intport7}}"
+          - "{{ports.stdout}}{{extport8}}:{{intport8}}"
+          - "{{ports.stdout}}{{extport9}}:{{intport9}}"
         env:
           PLEX_UID: '1000'
           PLEX_GID: '1000'
@@ -182,8 +195,6 @@
           - name: plexguide
             aliases:
               - plex
-        expose:
-          - 32400
         volumes: '{{default_volumes}}'
         devices: "{{ '/dev/dri:/dev/dri' if dev_dri.stat.exists == True | default(false) else omit }}"
         etc_hosts:
@@ -219,8 +230,6 @@
           - name: plexguide
             aliases:
               - plex
-        expose:
-          - 32400
         volumes: '{{default_volumes}}'
         devices: "{{ '/dev/dri:/dev/dri' if dev_dri.stat.exists == True | default(false) else omit }}"
         etc_hosts:
@@ -228,13 +237,6 @@
         restart_policy: unless-stopped
         state: started
         labels: '{{default_labels}}'
-      when: servertype.stdout == "local"
-
-    ######################################## ENDING PHASE
-    - debug: msg="Final Notes - Remote Plex | IP Address {{ipaddress.stdout}} | Plex Type {{servertype.stdout}} | Token {{claim.stdout}}"
-      when: servertype.stdout == "remote"
-
-    - debug: msg="Final Notes - Local Plex | IP Address {{ipaddress.stdout}} | Plex Type {{servertype.stdout}}"
       when: servertype.stdout == "local"
 
     ###################### Plex WebTools
@@ -267,3 +269,9 @@
         prompt: "\nWebTools Installed! [PRESS ENTER] to Continue"
       when:
         - webtools.stat.exists == False
+
+    - debug: msg="Final Notes - Remote Plex | IP Address {{ipaddress.stdout}} | Plex Type {{servertype.stdout}} | Token {{claim.stdout}}"
+      when: servertype.stdout == "remote"
+
+    - debug: msg="Final Notes - Local Plex | IP Address {{ipaddress.stdout}} | Plex Type {{servertype.stdout}}"
+      when: servertype.stdout == "local"
