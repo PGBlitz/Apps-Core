@@ -69,10 +69,6 @@
       file: 'path={{item}} state=directory mode=0775 owner=1000 group=1000'
       with_items:
         - '{{path.stdout}}/incomplete/{{pgrole}}'
-        - '{{path.stdout}}/incomplete/{{pgrole}}/tv'
-        - '{{path.stdout}}/incomplete/{{pgrole}}/movies'
-        - '{{path.stdout}}/incomplete/{{pgrole}}/ebooks'
-        - '{{path.stdout}}/incomplete/{{pgrole}}/abooks'
       when: incomplete.stdout | length == 0
       ignore_errors: yes
 
