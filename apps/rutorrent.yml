@@ -19,7 +19,7 @@
         extport2: "5000"
         intport3: "6881/udp"
         extport3: "6881"
-        intport4: "51413/udp"
+        intport4: "51413"
         extport4: "51413"
         image: "linuxserver/rutorrent"
 
