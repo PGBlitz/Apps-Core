@@ -257,8 +257,8 @@
         src: https://github.com/ukdtom/WebTools.bundle/releases/download/3.0.0/WebTools.bundle.zip
         dest: /opt/appdata/plex/database/Library/Application Support/Plex Media Server/Plug-ins
         keep_newer: no
-        owner: 1000
-        group: 1000
+        owner: '1000'
+        group: '1000'
         mode: 0775
         copy: no
       when:
