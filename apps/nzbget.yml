@@ -113,15 +113,6 @@
         regexp: '^InterDir\s*=.*'
         line: 'InterDir='
         state: present
-      when: incomplete.stdout | length == 0
-
-    - name: Set InterDir
-      lineinfile:
-        path: '/opt/appdata/{{pgrole}}/nzbget.conf'
-        regexp: '^InterDir\s*=.*'
-        line: 'InterDir={{incomplete.stdout}}/{{pgrole}}'
-        state: present
-      when: incomplete.stdout | length > 0
 
     - name: Set TempDir
       lineinfile:

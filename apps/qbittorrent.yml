@@ -95,23 +95,6 @@
         value: '{{path.stdout}}/downloads/{{pgrole}}'
         state: present
 
-    - name: Set TempPath when incomplete is defined
-      ini_file:
-        path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
-        section: Preferences
-        option: Downloads\TempPath
-        value: '{{incomplete.stdout}}/{{pgrole}}'
-        state: present
-      when: incomplete.stdout | length > 0
-
-    - name: Set TempPath when incomplete is undefined
-      ini_file:
-        path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
-        section: Preferences
-        option: Downloads\TempPath
-        value: '{{path.stdout}}/incomplete/{{pgrole}}'
-        state: present
-      when: incomplete.stdout | length == 0
 
     - name: Set TempPathEnabled
       ini_file:
