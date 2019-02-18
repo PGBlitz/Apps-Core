@@ -28,8 +28,8 @@
         dest: /opt/appdata/{{pgrole}}/docker-gc-exclude
         force: yes
         mode: 0775
-        owner: 1000
-        group: 1000
+        owner: '1000'
+        group: '1000'
 
     # LABELS ######################################################################
     - name: 'Setting PG Volumes'
@@ -42,8 +42,8 @@
     - name: 'Setting PG ENV'
       set_fact:
         pg_env:
-          PUID: 1000
-          PGID: 1000
+          PUID: '1000'
+          PGID: '1000'
           CLEAN_UP_VOLUMES: 1
 
     # MAIN DEPLOYMENT #############################################################

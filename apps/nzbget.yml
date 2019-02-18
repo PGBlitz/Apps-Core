@@ -29,7 +29,6 @@
       file: 'path={{item}} state=directory mode=0775 owner=1000 group=1000'
       with_items:
         - '{{path.stdout}}/nzb'
-      force: yes
 
     - name: 'Including plugins'
       include_tasks: '/opt/coreapps/apps/_plugins.yml'
@@ -60,8 +59,8 @@
     - name: 'Setting PG ENV'
       set_fact:
         pg_env:
-          PUID: 1000
-          PGID: 1000
+          PUID: '1000'
+          PGID: '1000'
           LC_ALL: 'C'
 
     # MAIN DEPLOYMENT #############################################################
@@ -114,15 +113,6 @@
         regexp: '^InterDir\s*=.*'
         line: 'InterDir='
         state: present
-      when: incomplete.stdout | length == 0
-
-    - name: Set InterDir
-      lineinfile:
-        path: '/opt/appdata/{{pgrole}}/nzbget.conf'
-        regexp: '^InterDir\s*=.*'
-        line: 'InterDir={{incomplete.stdout}}/{{pgrole}}'
-        state: present
-      when: incomplete.stdout | length > 0
 
     - name: Set TempDir
       lineinfile:

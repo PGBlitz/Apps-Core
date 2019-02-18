@@ -60,8 +60,8 @@
     - name: 'Setting PG ENV'
       set_fact:
         pg_env:
-          PUID: 1000
-          PGID: 1000
+          PUID: '1000'
+          PGID: '1000'
 
     # MAIN DEPLOYMENT #############################################################
 
@@ -101,16 +101,6 @@
         option: download_dir
         value: '{{path.stdout}}/incomplete/{{pgrole}}'
         state: present
-      when: incomplete.stdout | length == 0
-
-    - name: Set download_dir  when incomplete is undefined
-      ini_file:
-        path: '/opt/appdata/{{pgrole}}/sabnzbd.ini'
-        section: misc
-        option: download_dir
-        value: '{{incomplete.stdout}}/{{pgrole}}'
-        state: present
-      when: incomplete.stdout | length > 0
 
     - name: Set complete_dir
       ini_file:
