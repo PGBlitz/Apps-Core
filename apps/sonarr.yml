@@ -16,28 +16,14 @@
         pgrole: 'sonarr'
         intport: '8989'
         extport: '8989'
-        image: 'lsiodev/sonarr-preview'
+        image: 'linuxserver/sonarr:preview'
 
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
       include_tasks: '/opt/coreapps/apps/_core.yml'
 
-    - name: Create Folders
-      file: 'path={{item}} state=directory mode=0775 owner=1000 group=1000'
-      with_items:
-        - /opt/appdata/{{pgrole}}/mp4_automator
-
     - name: 'Including plugins'
       include_tasks: '/opt/coreapps/apps/_plugins.yml'
-
-    - name: Install autoProcess.ini
-      template:
-        src: /opt/coreapps/apps/templates/sonarr/sonarr.ini
-        dest: /opt/appdata/{{pgrole}}/mp4_automator/autoProcess.ini
-        force: yes
-        mode: 0775
-        owner: '1000'
-        group: '1000'
 
     # LABELS ######################################################################
     - name: 'Adding Traefik'
@@ -51,7 +37,6 @@
     - name: 'Setting PG Volumes'
       set_fact:
         pg_volumes:
-          - '/opt/appdata/{{pgrole}}/mp4_automator:/config_mp4_automator'
           - '/opt/appdata/{{pgrole}}:/config'
           - '{{path.stdout}}:{{path.stdout}}'
           - '/mnt:/mnt'
