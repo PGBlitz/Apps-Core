@@ -30,7 +30,6 @@
       with_items:
         - '{{path.stdout}}/nzb'
         - '{{path.stdout}}/nzb/watch'
-      force: yes
 
     - name: 'Including plugins'
       include_tasks: '/opt/coreapps/apps/_plugins.yml'
