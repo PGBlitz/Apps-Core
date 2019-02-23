@@ -20,7 +20,10 @@
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
       include_tasks: '/opt/coreapps/apps/_core.yml'
-
+      
+    - name: 'Including plugins '
+      include_tasks: '/opt/coreapps/apps/_plugins.yml'
+      
     - name: 'Checking for existing app data'
       stat:
         path: /opt/appdata/tautulli/config.ini
@@ -40,7 +43,7 @@
         pg_volumes:
           - '/opt/appdata/{{pgrole}}:/config'
           - '/opt/appdata/plex/database/Library/Application Support/Plex Media Server/Logs:/logs'
-          - '/opt/appdata/pgrole/scripts:/scripts'
+          - '/opt/appdata/{{pgrole}}/scripts:/scripts'
 
     - name: 'Setting PG ENV'
       set_fact:
