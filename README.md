@@ -21,7 +21,7 @@ _**Table of Contents**_
 **PG Box Core:** PG Core is a PG repo that collects and stores core containers for install.
 
 <p align="center"><kbd><img src="https://pgblitz.com/wikipics/pglogo-move.gif" width="400""></kbd></p>
-<p align="center"><b>Manage PlexGuide - AnyTime, Anywhere!</b></p>
+<p align="center"><b>Manage PGBlitz - AnyTime, Anywhere!</b></p>
  
 # 2. YouTube Video - Intro
 NOT READY
