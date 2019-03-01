@@ -175,24 +175,37 @@
             line: "schedule = low_diskspace,5,60,close_low_diskspace=5000M"
             state: present
 
-        - name: Global Upload to Unlmited
+        - name: max_downloads_kb Unlmited
           lineinfile:
             path: "/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc"
             regexp: '#*throttle.global_up.max_rate.set_kb\s*=.*'
             line: "throttle.global_up.max_rate.set_kb = 0"
             state: present
 
-        - name: MAX DL 1024
+        - name: max_downloads_kb 100000 (100mbps)
           lineinfile:
             path: "/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc"
             regexp: '#*throttle.max_downloads.global.set_kb\s*=.*'
-            line: "throttle.max_downloads.global.set = 1024"
+            line: "throttle.max_downloads.global.set_kb = 100000"
+            state: present
+
+        - name: max_downloads
+          lineinfile:
+            path: "/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc"
+            regexp: '#*throttle.max_downloads.global.set\s*=.*'
+            line: "throttle.max_downloads.global.set = 500"
+            state: present
+        - name: max_uploads
+          lineinfile:
+            path: "/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc"
+            regexp: '#*throttle.max_uploads.global.set\s*=.*'
+            line: "throttle.max_uploads.global.set = 50"
             state: present
 
         - name: No File Allocation
           lineinfile:
             path: "/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc"
-            regexp: '#*system.file_allocate.set\s*=.*'
+            regexp: '#*system.file.allocate.set\s*=.*'
             line: "system.file.allocate.set = 0"
             state: present
 
@@ -228,14 +241,14 @@
           lineinfile:
             path: "/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc"
             regexp: '#*upload_rate\s*=.*'
-            line: "upload_rate = 100000"
+            line: "upload_rate = 30000"
             state: present
 
         - name: Download Rate
           lineinfile:
             path: "/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc"
             regexp: '#*download_rate\s*=.*'
-            line: "download_rate = 100000"
+            line: "download_rate = 90000"
             state: present
 
         - name: Global Upload to Unlmited
@@ -273,13 +286,6 @@
             line: "pieces.preload.type = 2"
             state: present
 
-        - name: Preload Piece to Host
-          lineinfile:
-            path: "/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc"
-            regexp: '#*pieces.preload.type\s*=.*'
-            line: "pieces.preload.type = 2"
-            state: present
-
         - name: lower DNS timeout
           lineinfile:
             path: "/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc"
@@ -290,15 +296,15 @@
         - name: Network Send Buffer Size
           lineinfile:
             path: "/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc"
-            regexp: '#*network.send_buffer.size\s*=.*'
-            line: "network.send_buffer.size = 2"
+            regexp: '#*network.send_buffer.size.set\s*=.*'
+            line: "network.send_buffer.size.set = 12M"
             state: present
 
         - name: Network Recived Buffer Size
           lineinfile:
             path: "/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc"
-            regexp: '#*network.receive_buffer.size\s*=.*'
-            line: "network.receive_buffer.size = 2"
+            regexp: '#*network.receive_buffer.size.set\s*=.*'
+            line: "network.receive_buffer.size.set = 4M"
             state: present
 
         - name: Announce-Interval Min rescan
