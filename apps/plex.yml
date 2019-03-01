@@ -66,6 +66,7 @@
       set_fact:
         default_volumes:
           - '/tmp:/tmp'
+          - '/dev/shm:/dev/shm'
           - '/mnt:/mnt'
           - '/opt/appdata/plex/database:/config'
           - '/opt/transcodes:/transcode'
