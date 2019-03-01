@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# Title:      PlexGuide (Reference Title File)
+# Title:      PGBlitz (Reference Title File)
 # Author(s):  Admin9705
-# URL:        https://plexguide.com - http://github.plexguide.com
+# URL:        https://pgblitz.com - http://github.pgblitz.com
 # GNU:        General Public License v3.0
 ################################################################################
 ---
@@ -15,22 +15,22 @@
         pgrole: 'plex'
         intport: '32400/tcp'
         extport: '32400'
-        intport2: "3005/tcp"
-        extport2: "3005"
-        intport3: "8324/tcp"
-        extport3: "8324"
-        intport4: "32410/udp"
-        extport4: "32410"
-        intport5: "32412/udp"
-        extport5: "32412"
-        intport6: "32413/udp"
-        extport6: "32413"
-        intport7: "32414/udp"
-        extport7: "32414"
-        intport8: "33400/tcp"
-        extport8: "33400"
-        intport9: "33443/tcp"
-        extport9: "33443"
+        intport2: '3005/tcp'
+        extport2: '3005'
+        intport3: '8324/tcp'
+        extport3: '8324'
+        intport4: '32410/udp'
+        extport4: '32410'
+        intport5: '32412/udp'
+        extport5: '32412'
+        intport6: '32413/udp'
+        extport6: '32413'
+        intport7: '32414/udp'
+        extport7: '32414'
+        intport8: '33400/tcp'
+        extport8: '33400'
+        intport9: '33443/tcp'
+        extport9: '33443'
 
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
@@ -176,15 +176,15 @@
         image: 'plexinc/pms-docker:{{extension.stdout}}'
         pull: yes
         published_ports:
-          - "{{extport}}:{{intport}}"
-          - "{{ports.stdout}}{{extport2}}:{{intport2}}"
-          - "{{ports.stdout}}{{extport3}}:{{intport3}}"
-          - "{{ports.stdout}}{{extport4}}:{{intport4}}"
-          - "{{ports.stdout}}{{extport5}}:{{intport5}}"
-          - "{{ports.stdout}}{{extport6}}:{{intport6}}"
-          - "{{ports.stdout}}{{extport7}}:{{intport7}}"
-          - "{{ports.stdout}}{{extport8}}:{{intport8}}"
-          - "{{ports.stdout}}{{extport9}}:{{intport9}}"
+          - '{{extport}}:{{intport}}'
+          - '{{ports.stdout}}{{extport2}}:{{intport2}}'
+          - '{{ports.stdout}}{{extport3}}:{{intport3}}'
+          - '{{ports.stdout}}{{extport4}}:{{intport4}}'
+          - '{{ports.stdout}}{{extport5}}:{{intport5}}'
+          - '{{ports.stdout}}{{extport6}}:{{intport6}}'
+          - '{{ports.stdout}}{{extport7}}:{{intport7}}'
+          - '{{ports.stdout}}{{extport8}}:{{intport8}}'
+          - '{{ports.stdout}}{{extport9}}:{{intport9}}'
         env:
           PLEX_UID: '1000'
           PLEX_GID: '1000'
