@@ -1,7 +1,7 @@
 /*** Configurable Options ***/
 plugin.enableAutodetect = true;
 plugin.tabletsDetect = true;
-plugin.eraseWithDataDefault = true;
+plugin.eraseWithDataDefault = false;
 plugin.sort = '-addtime'; /* 'name', 'size', 'uploaded', 'downloaded', 'done', 'eta', 'ul', 'dl', 'ratio', 'addtime', 'seedingtime'. Add preceding negative for descending sort. */
 /*** End Configurable Options ***/
 
@@ -327,7 +327,7 @@ plugin.showSettings = function() {
       var spd = speeds[i] * 1024;
       $('#dlLimit').append('<option' + (spd == total.rateDL ? ' selected' : '') + ' value="' + spd + '">' + theConverter.speed(spd) + '</option>');
     };
-    $('#dlLimit').append('<option' + ((total.rateDL <= 0 || total.rateDL >= 100*1024*1024) ? ' selected' : '') + ' value="' + 100 * 1024 * 1024 + '">' + theUILang.unlimited + '</option>');
+    $('#dlLimit').append('<option' + ((total.rateDL <= 0 || total.rateDL >= 327625*1024) ? ' selected' : '') + ' value="' + 327625*1024 + '">' + theUILang.unlimited + '</option>');
 
     speeds=theWebUI.settings["webui.speedlistul"].split(",");
 
@@ -335,7 +335,7 @@ plugin.showSettings = function() {
       var spd = speeds[i] * 1024;
       $('#ulLimit').append('<option' + (spd == total.rateUL ? ' selected' : '') + ' value="' + spd + '">' + theConverter.speed(spd) + '</option>');
     };
-    $('#ulLimit').append('<option' + ((total.rateUL <= 0 || total.rateUL >= 100*1024*1024) ? ' selected' : '') + ' value="' + 100 * 1024 * 1024 + '">' + theUILang.unlimited + '</option>');
+    $('#ulLimit').append('<option' + ((total.rateUL <= 0 || total.rateUL >= 327625*1024) ? ' selected' : '') + ' value="' + 327625*1024 + '">' + theUILang.unlimited + '</option>');
 
     plugin.showPage('globalSettings');
   });
