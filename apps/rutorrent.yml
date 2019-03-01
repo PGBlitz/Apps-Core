@@ -174,20 +174,6 @@
             line: 'schedule = low_diskspace,5,60,close_low_diskspace=5000M'
             state: present
 
-        - name: max_downloads_kb Unlmited
-          lineinfile:
-            path: '/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc'
-            regexp: '#*throttle.global_up.max_rate.set_kb\s*=.*'
-            line: 'throttle.global_up.max_rate.set_kb = 0'
-            state: present
-
-        - name: max_downloads_kb 100000 (100mbps)
-          lineinfile:
-            path: '/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc'
-            regexp: '#*throttle.max_downloads.global.set_kb\s*=.*'
-            line: 'throttle.max_downloads.global.set_kb = 100000'
-            state: present
-
         - name: max_downloads
           lineinfile:
             path: '/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc'
