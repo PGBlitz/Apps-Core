@@ -2,7 +2,7 @@
 #
 # Title:      PlexGuide (Reference Title File)
 # Maintainer: Admin9705
-# URL:        https://plexguide.com - http://github.plexguide.com
+# URL:        https://pgblitz.com - http://github.pgblitz.com
 # GNU:        General Public License v3.0
 #
 # Original Author: clinton-hall
