@@ -107,11 +107,11 @@
         line: 'DestDir={{path.stdout}}/downloads/{{pgrole}}'
         state: present
 
-    - name: Disabling InterDir, incomplete location is not set.
+    - name: Set incomplete location
       lineinfile:
         path: '/opt/appdata/{{pgrole}}/nzbget.conf'
         regexp: '^InterDir\s*=.*'
-        line: 'InterDir='
+        line: 'InterDir={path.stdout}}/incomplete/{{pgrole}}'
         state: present
 
     - name: Set TempDir
