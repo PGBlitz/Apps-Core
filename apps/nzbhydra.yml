@@ -35,6 +35,8 @@
         pg_volumes:
           - '/opt/appdata/{{pgrole}}:/config'
           - '/etc/localtime:/etc/localtime:ro'
+          - '{{path.stdout}}/torrent:{{path.stdout}}/torrent'
+
 
     - name: 'Setting PG ENV'
       set_fact:
