@@ -44,13 +44,14 @@
           - '/opt/appdata/{{pgrole}}:/config'
           - '/opt/appdata/plex/database/Library/Application Support/Plex Media Server/Logs:/logs'
           - '/opt/appdata/{{pgrole}}/scripts:/scripts'
+          - '/etc/localtime:/etc/localtime:ro'
 
     - name: 'Setting PG ENV'
       set_fact:
         pg_env:
           PUID: '1000'
           PGID: '1000'
-          TZ: 'Europe/London'
+
 
     # MAIN DEPLOYMENT #############################################################
     - name: 'Deploying {{pgrole}}'
