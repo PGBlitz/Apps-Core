@@ -72,7 +72,7 @@
     # AFTER ########################################################################
     - name: 'Configuring {{pgrole}} for first time use'
       block:
-        - name: 'Wating for {{pgrole}} to start'
+        - name: 'Waiting for {{pgrole}} to start'
           wait_for:
             path: '/opt/appdata/tautulli/config.ini'
             state: present
