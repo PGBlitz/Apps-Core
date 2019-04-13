@@ -25,7 +25,7 @@
     - name: Deploy watchtower
       docker_container:
         name: 'watchtower'
-        image: 'v2tec/watchtower'
+        image: 'containrrr/watchtower'
         pull: yes
         command: '{{programs.stdout}} --cleanup --interval 600'
         #cpu_shares: 64
