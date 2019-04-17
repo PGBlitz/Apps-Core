@@ -124,47 +124,7 @@
             value: 1
             state: present
 
-        - name: Set notfound status
-          ini_file:
-            path: '/opt/appdata/{{pgrole}}/config.ini'
-            section: LibraryScan
-            option: notfound_status
-            value: Wanted
-            state: present
-
-        - name: Set newbook status
-          ini_file:
-            path: '/opt/appdata/{{pgrole}}/config.ini'
-            section: LibraryScan
-            option: newbook_status
-            value: Wanted
-            state: present
-
-        - name: Set newauthor status
-          ini_file:
-            path: '/opt/appdata/{{pgrole}}/config.ini'
-            section: LibraryScan
-            option: newauthor_audio
-            value: Wanted
-            state: present
-
-        - name: Set newaudio status
-          ini_file:
-            path: '/opt/appdata/{{pgrole}}/config.ini'
-            section: LibraryScan
-            option: newaudio_status
-            value: Wanted
-            state: present
-
-        - name: Set newauthor status
-          ini_file:
-            path: '/opt/appdata/{{pgrole}}/config.ini'
-            section: LibraryScan
-            option: newauthor_status
-            value: Wanted
-            state: present
-
-        - name: Set add series
+        - name: Set add missing series when scanning library
           ini_file:
             path: '/opt/appdata/{{pgrole}}/config.ini'
             section: LibraryScan
@@ -172,7 +132,7 @@
             value: 1
             state: present
 
-        - name: Set add author
+        - name: Set add missing author when scanning library
           ini_file:
             path: '/opt/appdata/{{pgrole}}/config.ini'
             section: LibraryScan
