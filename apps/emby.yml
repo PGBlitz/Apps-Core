@@ -52,7 +52,7 @@
           GIDLIST: '1000'
 
     # MAIN DEPLOYMENT #############################################################
-     - name: "Check"
+    - name: "Check"
       stat:
         path: "/dev/dri"
       register: dev_dri
