@@ -124,22 +124,6 @@
             value: 1
             state: present
 
-        - name: Set add missing series when scanning library
-          ini_file:
-            path: '/opt/appdata/{{pgrole}}/config.ini'
-            section: LibraryScan
-            option: add_series
-            value: 1
-            state: present
-
-        - name: Set add missing author when scanning library
-          ini_file:
-            path: '/opt/appdata/{{pgrole}}/config.ini'
-            section: LibraryScan
-            option: add_author
-            value: 1
-            state: present
-
         - name: 'Configuring downloaders'
           block:
             - name: Set deluge host
