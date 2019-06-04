@@ -135,10 +135,6 @@
         line: 'ScriptDir=${MainDir}/scripts'
         state: present
 
-    # scripts permissions 
-    - name: 'Setting permissions on scripts'
-      shell: 'chmod -R 775 /opt/appdata/{{pgrole}}/scripts'
-
     # FIRST TIME CONFIGURATION #############################################################
     - name: 'Configuring {{pgrole}} for first time use'
       block:
