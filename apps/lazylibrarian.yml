@@ -101,7 +101,7 @@
         path: '/opt/appdata/{{pgrole}}/config.ini'
         section: General
         option: download_dir
-        value: '{{path.stdout}}/downloads/sabnzbd/ebooks,{{path.stdout}}/downloads/nzbget/ebooks,{{path.stdout}}/downloads/rutorrent/ebooks,{{path.stdout}}/downloads/qbittorrent/ebooks'
+        value: '{{path.stdout}}/unionfs/sabnzbd/ebooks,{{path.stdout}}/unionfs/nzbget/ebooks,{{path.stdout}}/unionfs/rutorrent/ebooks,{{path.stdout}}/unionfs/qbittorrent/ebooks'
         state: present
 
     # FIRST TIME CONFIGURATION ####################################################
