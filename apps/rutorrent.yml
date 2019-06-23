@@ -67,6 +67,14 @@
           PUID: '1000'
           PGID: '1000'
 
+    - name: 'Install config.php fix'
+      template:
+        src: /opt/coreapps/apps/templates/rutorrent/rutorrent/settings/config.php
+        dest: /opt/appdata/rutorrent/rutorrent/settings/config.php
+        force: yes
+        owner: '1000'
+        group: '1000'
+
     # MAIN DEPLOYMENT #############################################################
     - name: 'Deploying {{pgrole}}'
       docker_container:
