@@ -69,7 +69,7 @@
 
     - name: 'Install config.php fix'
       template:
-        src: /opt/coreapps/apps/templates/rutorrent/config.php
+        src: /opt/coreapps/apps/templates/rutorrent/rutorrent/settings/config.php
         dest: /opt/appdata/rutorrent/rutorrent/settings/config.php
         force: yes
         owner: '1000'
