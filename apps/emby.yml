@@ -38,8 +38,9 @@
     - name: 'Setting PG Volumes'
       set_fact:
         pg_volumes:
-          - /etc/localtime:/etc/localtime:ro
-          - /opt/appdata/{{pgrole}}:/config
+          - '/etc/localtime:/etc/localtime:ro'
+          - '/opt/transcodes:/transcode'
+          - '/opt/appdata/{{pgrole}}:/config'
           - '{{path.stdout}}:{{path.stdout}}'
           - '/mnt:/mnt'
           - '/mnt/unionfs:/unionfs'
