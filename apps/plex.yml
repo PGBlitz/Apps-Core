@@ -184,7 +184,7 @@
           - '{{ports.stdout}}{{extport6}}:{{intport6}}'
           - '{{ports.stdout}}{{extport7}}:{{intport7}}'
           - '{{ports.stdout}}{{extport8}}:{{intport8}}'
-          - '{{ports.stdout}}{{extport9}}:{{intport9}}'
+          - '{{extport9}}:{{intport9}}'
         env:
           PLEX_UID: '1000'
           PLEX_GID: '1000'
