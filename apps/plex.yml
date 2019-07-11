@@ -65,14 +65,13 @@
     - name: 'Set Default Volume - {{extension.stdout}}'
       set_fact:
         default_volumes:
-          - '/tmp:/tmp'
+          - '/etc/localtime:/etc/localtime:ro'
+          - '{{path.stdout}}:{{path.stdout}}'
           - '/mnt:/mnt'
-          - '/opt/appdata/plex/database:/config'
+          - '/opt/appdata/{{pgrole}}/database:/config'
+          - '/tmp:/tmp'
           - '/opt/transcodes:/transcode'
           - '/dev/shm:/ram_transcode'
-          - '{{path.stdout}}:{{path.stdout}}'
-          - '/etc/localtime:/etc/localtime:ro'
-          - '/mnt/unionfs:/unionfs'
 
     - name: 'Establish Key Variables'
       set_fact:

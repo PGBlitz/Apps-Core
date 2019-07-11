@@ -39,11 +39,10 @@
       set_fact:
         pg_volumes:
           - '/etc/localtime:/etc/localtime:ro'
-          - '/opt/transcodes:/transcode'
-          - '/opt/appdata/{{pgrole}}:/config'
           - '{{path.stdout}}:{{path.stdout}}'
           - '/mnt:/mnt'
-          - '/mnt/unionfs:/unionfs'
+          - '/opt/appdata/{{pgrole}}:/config'
+          - '/opt/transcodes:/transcode'
           - '/var/run/docker.sock:/var/run/docker.sock'
 
     - name: 'Setting PG ENV'
