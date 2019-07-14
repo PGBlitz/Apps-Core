@@ -38,11 +38,11 @@
     - name: 'Setting PG Volumes'
       set_fact:
         pg_volumes:
-          - /etc/localtime:/etc/localtime:ro
-          - /opt/appdata/{{pgrole}}:/config
+          - '/etc/localtime:/etc/localtime:ro'
           - '{{path.stdout}}:{{path.stdout}}'
           - '/mnt:/mnt'
-          - '/mnt/unionfs:/unionfs'
+          - '/opt/appdata/{{pgrole}}:/config'
+          - '/opt/transcodes:/transcode'
 
     - name: 'Setting PG ENV'
       set_fact:
@@ -52,6 +52,11 @@
           GIDLIST: '1000'
 
     # MAIN DEPLOYMENT #############################################################
+    - name: "Check"
+      stat:
+        path: "/dev/dri"
+      register: dev_dri
+
     - name: 'Deploying {{pgrole}}'
       docker_container:
         name: '{{pgrole}}'
@@ -59,6 +64,7 @@
         pull: yes
         published_ports:
           - '{{ports.stdout}}{{extport}}:{{intport}}'
+        devices: "{{ '/dev/dri:/dev/dri' if dev_dri.stat.exists == True | default(false) else omit }}"
         volumes: '{{pg_volumes}}'
         env: '{{pg_env}}'
         restart_policy: unless-stopped

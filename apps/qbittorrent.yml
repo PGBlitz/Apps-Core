@@ -41,9 +41,9 @@
       set_fact:
         pg_volumes:
           - '/etc/localtime:/etc/localtime:ro'
-          - '/opt/appdata/{{pgrole}}:/config'
           - '{{path.stdout}}:{{path.stdout}}'
           - '/mnt:/mnt'
+          - '/opt/appdata/{{pgrole}}:/config'
 
     - name: 'Setting PG ENV'
       set_fact:
@@ -101,7 +101,7 @@
         path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
         section: Preferences
         option: Downloads\TempPathEnabled
-        value: true
+        value: True
         state: present
 
     # FIRST TIME CONFIGURATION ####################################################
@@ -112,7 +112,7 @@
             path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
             section: AutoRun
             option: enabled
-            value: true
+            value: True
             state: present
 
         - name: Enable Auto UnRar
@@ -168,7 +168,7 @@
             path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
             section: Preferences
             option: Queueing\IgnoreSlowTorrents
-            value: true
+            value: True
             state: present
 
         - name: Set MaxActiveDownloads

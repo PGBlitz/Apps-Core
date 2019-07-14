@@ -41,10 +41,10 @@
     - name: 'Setting PG Volumes'
       set_fact:
         pg_volumes:
+          - '/etc/localtime:/etc/localtime:ro'
           - '/opt/appdata/{{pgrole}}:/config'
           - '/opt/appdata/plex/database/Library/Application Support/Plex Media Server/Logs:/logs'
           - '/opt/appdata/{{pgrole}}/scripts:/scripts'
-          - '/etc/localtime:/etc/localtime:ro'
 
     - name: 'Setting PG ENV'
       set_fact:
@@ -74,7 +74,7 @@
     # AFTER ########################################################################
     - name: 'Configuring {{pgrole}} for first time use'
       block:
-        - name: 'Wating for {{pgrole}} to start'
+        - name: 'Waiting for {{pgrole}} to start'
           wait_for:
             path: '/opt/appdata/tautulli/config.ini'
             state: present

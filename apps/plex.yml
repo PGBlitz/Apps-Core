@@ -65,14 +65,13 @@
     - name: 'Set Default Volume - {{extension.stdout}}'
       set_fact:
         default_volumes:
-          - '/tmp:/tmp'
+          - '/etc/localtime:/etc/localtime:ro'
+          - '{{path.stdout}}:{{path.stdout}}'
           - '/mnt:/mnt'
-          - '/opt/appdata/plex/database:/config'
+          - '/opt/appdata/{{pgrole}}/database:/config'
+          - '/tmp:/tmp'
           - '/opt/transcodes:/transcode'
           - '/dev/shm:/ram_transcode'
-          - '{{path.stdout}}:{{path.stdout}}'
-          - '/etc/localtime:/etc/localtime:ro'
-          - '/mnt/unionfs:/unionfs'
 
     - name: 'Establish Key Variables'
       set_fact:
@@ -184,7 +183,7 @@
           - '{{ports.stdout}}{{extport6}}:{{intport6}}'
           - '{{ports.stdout}}{{extport7}}:{{intport7}}'
           - '{{ports.stdout}}{{extport8}}:{{intport8}}'
-          - '{{ports.stdout}}{{extport9}}:{{intport9}}'
+          - '{{extport9}}:{{intport9}}'
         env:
           PLEX_UID: '1000'
           PLEX_GID: '1000'
