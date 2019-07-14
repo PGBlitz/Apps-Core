@@ -38,10 +38,10 @@
     - name: 'Setting PG Volumes'
       set_fact:
         pg_volumes:
-          - '/opt/appdata/{{pgrole}}:/config'
-          - '{{path.stdout}}:{{path.stdout}}'
           - '/etc/localtime:/etc/localtime:ro'
+          - '{{path.stdout}}:{{path.stdout}}'
           - '/mnt:/mnt'
+          - '/opt/appdata/{{pgrole}}:/config'
 
     - name: 'Setting PG ENV'
       set_fact:
@@ -101,7 +101,7 @@
         path: '/opt/appdata/{{pgrole}}/config.ini'
         section: General
         option: download_dir
-        value: '{{path.stdout}}/downloads/sabnzbd/ebooks,{{path.stdout}}/downloads/nzbget/ebooks,{{path.stdout}}/downloads/rutorrent/ebooks,{{path.stdout}}/downloads/qbittorrent/ebooks'
+        value: '{{path.stdout}}/unionfs/sabnzbd/ebooks,{{path.stdout}}/unionfs/nzbget/ebooks,{{path.stdout}}/unionfs/rutorrent/ebooks,{{path.stdout}}/unionfs/qbittorrent/ebooks'
         state: present
 
     # FIRST TIME CONFIGURATION ####################################################
@@ -121,62 +121,6 @@
             path: '/opt/appdata/{{pgrole}}/config.ini'
             section: General
             option: series_tab
-            value: 1
-            state: present
-
-        - name: Set notfound status
-          ini_file:
-            path: '/opt/appdata/{{pgrole}}/config.ini'
-            section: LibraryScan
-            option: notfound_status
-            value: Wanted
-            state: present
-
-        - name: Set newbook status
-          ini_file:
-            path: '/opt/appdata/{{pgrole}}/config.ini'
-            section: LibraryScan
-            option: newbook_status
-            value: Wanted
-            state: present
-
-        - name: Set newauthor status
-          ini_file:
-            path: '/opt/appdata/{{pgrole}}/config.ini'
-            section: LibraryScan
-            option: newauthor_audio
-            value: Wanted
-            state: present
-
-        - name: Set newaudio status
-          ini_file:
-            path: '/opt/appdata/{{pgrole}}/config.ini'
-            section: LibraryScan
-            option: newaudio_status
-            value: Wanted
-            state: present
-
-        - name: Set newauthor status
-          ini_file:
-            path: '/opt/appdata/{{pgrole}}/config.ini'
-            section: LibraryScan
-            option: newauthor_status
-            value: Wanted
-            state: present
-
-        - name: Set add series
-          ini_file:
-            path: '/opt/appdata/{{pgrole}}/config.ini'
-            section: LibraryScan
-            option: add_series
-            value: 1
-            state: present
-
-        - name: Set add author
-          ini_file:
-            path: '/opt/appdata/{{pgrole}}/config.ini'
-            section: LibraryScan
-            option: add_author
             value: 1
             state: present
 

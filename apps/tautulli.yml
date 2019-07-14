@@ -41,6 +41,7 @@
     - name: 'Setting PG Volumes'
       set_fact:
         pg_volumes:
+          - '/etc/localtime:/etc/localtime:ro'
           - '/opt/appdata/{{pgrole}}:/config'
           - '/opt/appdata/plex/database/Library/Application Support/Plex Media Server/Logs:/logs'
           - '/opt/appdata/{{pgrole}}/scripts:/scripts'
@@ -50,6 +51,7 @@
         pg_env:
           PUID: '1000'
           PGID: '1000'
+
 
     # MAIN DEPLOYMENT #############################################################
     - name: 'Deploying {{pgrole}}'
