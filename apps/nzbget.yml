@@ -87,7 +87,7 @@
         path: '/opt/appdata/{{pgrole}}/nzbget.conf'
         state: present
         delay: 5
-        
+
     - name: 'Stopping {{pgrole}}'
       docker_container:
         name: '{{pgrole}}'

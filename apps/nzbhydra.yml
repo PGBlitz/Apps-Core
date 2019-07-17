@@ -39,7 +39,6 @@
           - '/opt/appdata/{{pgrole}}:/config'
           - '{{path.stdout}}/torrent:{{path.stdout}}/torrent'
 
-
     - name: 'Setting PG ENV'
       set_fact:
         pg_env:

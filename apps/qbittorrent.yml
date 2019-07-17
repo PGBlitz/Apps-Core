@@ -95,7 +95,6 @@
         value: '{{path.stdout}}/downloads/{{pgrole}}'
         state: present
 
-
     - name: Set TempPathEnabled
       ini_file:
         path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
@@ -245,7 +244,7 @@
             value: false
             force: yes
             state: present
-            
+
         - name: Set ServerDomains
           ini_file:
             path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
@@ -263,7 +262,7 @@
             value: '*'
             force: yes
             state: present
-            
+
       when: not confcheck.stat.exists
 
     - name: Restart {{pgrole}}
