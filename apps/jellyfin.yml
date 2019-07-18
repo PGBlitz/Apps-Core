@@ -32,7 +32,6 @@
         pg_labels:
           traefik.enable: 'true'
           traefik.port: '{{intport}}'
-          traefik.frontend.auth.forward.address: '{{gauth}}'
           traefik.frontend.rule: 'Host:{{pgrole}}.{{domain.stdout}},{{tldset}}'
 
     - name: 'Setting PG Volumes'
@@ -53,9 +52,9 @@
           PGID: '1000'
 
     # MAIN DEPLOYMENT #############################################################
-    - name: "Check"
+    - name: 'Check'
       stat:
-        path: "/dev/dri"
+        path: '/dev/dri'
       register: dev_dri
 
     - name: 'Deploying {{pgrole}}'
@@ -81,29 +80,28 @@
     # FIRST TIME CONFIGURATION ###########################################################
     - name: 'Configuring {{pgrole}} for first time use'
       block:
+        - name: 'Pending XML Generation'
+          wait_for:
+            path: '/opt/appdata/{{pgrole}}/config/system.xml'
+            state: present
 
-      - name: 'Pending XML Generation'
-        wait_for:
-          path: '/opt/appdata/{{pgrole}}/config/system.xml'
-          state: present
+        - name: 'Wait 5 Seconds'
+          wait_for:
+            timeout: 5
 
-      - name: 'Wait 5 Seconds'
-        wait_for:
-          timeout: 5
+        - name: 'Stop {{pgrole}}'
+          docker_container:
+            name: '{{pgrole}}'
+            state: stopped
 
-      - name: 'Stop {{pgrole}}'
-        docker_container:
-          name: '{{pgrole}}'
-          state: stopped
+        - name: 'Turn Off Reporting'
+          xml:
+            path: '/opt/appdata/{{pgrole}}/config/system.xml'
+            xpath: /ServerConfiguration/EnableAnonymousUsageReporting
+            value: 'false'
 
-      - name: 'Turn Off Reporting'
-        xml:
-          path: '/opt/appdata/{{pgrole}}/config/system.xml'
-          xpath: /ServerConfiguration/EnableAnonymousUsageReporting
-          value: 'false'
-
-      - name: 'Restart {{pgrole}}'
-        docker_container:
-          name: '{{pgrole}}'
-          state: started
+        - name: 'Restart {{pgrole}}'
+          docker_container:
+            name: '{{pgrole}}'
+            state: started
       when: not xmlcheck.stat.exists
