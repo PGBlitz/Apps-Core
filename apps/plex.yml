@@ -60,7 +60,7 @@
         default_labels:
           traefik.enable: 'true'
           traefik.port: '{{intport}}'
-          traefik.frontend.rule: 'Host:pl.{{domain.stdout}},m1.{{domain.stdout}},{{pgrole}}.{{domain.stdout}},{{tldset}}'
+          traefik.frontend.rule: 'Host:pl.{{domain.stdout}},{{pgrole}}.{{domain.stdout}},{{tldset}}'
 
     - name: 'Set Default Volume - {{extension.stdout}}'
       set_fact:
