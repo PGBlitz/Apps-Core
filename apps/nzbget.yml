@@ -44,7 +44,7 @@
         pg_labels:
           traefik.enable: 'true'
           traefik.port: '{{intport}}'
-          traefik.frontend.rule: 'Host:get.{{domain.stdout}},nz.{{domain.stdout}},ng.{{domain.stdout}},{{pgrole}}.{{domain.stdout}},{{tldset}}'
+          traefik.frontend.rule: 'Host:{{pgrole}}.{{domain.stdout}},{{tldset}}'
           traefik.frontend.auth.forward.address: '{{gauth}}'
 
     - name: 'Setting PG Volumes'
