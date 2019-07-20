@@ -1,2 +1,3 @@
-linuxserver/plex
+plexinc/pms-docker:latest
 plexinc/pms-docker:plexpass
+linuxserver/plex
