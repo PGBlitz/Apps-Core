@@ -18,8 +18,6 @@
         extport: '8083'
         intport2: '6881'
         extport2: '6881'
-        intport3: '6881/udp'
-        extport3: '6881/udp'
         image: 'linuxserver/qbittorrent'
 
     # CORE (MANDATORY) #############################################################
@@ -78,7 +76,6 @@
         published_ports:
           - '{{ports.stdout}}{{extport}}:{{intport}}'
           - '{{extport2}}:{{intport2}}'
-          - '{{extport3}}:{{intport3}}'
         volumes: '{{pg_volumes}}'
         env: '{{pg_env}}'
         restart_policy: unless-stopped
