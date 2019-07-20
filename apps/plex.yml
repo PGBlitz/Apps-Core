@@ -47,10 +47,6 @@
       register: claim
       when: servertype.stdout == "remote"
 
-    - name: Register Extension Type
-      shell: 'cat /var/plexguide/plex.extension'
-      register: extension
-
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
       include_tasks: '/opt/coreapps/apps/_core.yml'
