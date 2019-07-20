@@ -31,6 +31,7 @@
         extport8: '33400'
         intport9: '33443/tcp'
         extport9: '33443'
+        image: 'plexinc/pms-docker:latest'
 
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
