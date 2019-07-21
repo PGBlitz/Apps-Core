@@ -59,6 +59,7 @@
         name: '{{pgrole}}'
         image: '{{image}}'
         pull: yes
+        hostname: '{{domain.stdout}}'
         capabilities:
           - SYS_PTRACE
         published_ports:
