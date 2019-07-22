@@ -189,7 +189,7 @@
             path: '/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc'
             regexp: '#*schedule\s*=\s*low_diskspace.*'
             line: 'schedule = low_diskspace,5,60,close_low_diskspace=5000M'
-            state: present
+            state: absent
 
         - name: max_downloads
           lineinfile:
