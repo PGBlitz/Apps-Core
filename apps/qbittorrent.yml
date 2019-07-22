@@ -16,8 +16,8 @@
         pgrole: 'qbittorrent'
         intport: '8080'
         extport: '8083'
-        intport2: '6881'
-        extport2: '6881'
+        intport2: '30827'
+        extport2: '30827'
         image: 'linuxserver/qbittorrent'
 
     # CORE (MANDATORY) #############################################################
@@ -98,6 +98,14 @@
       docker_container:
         name: '{{pgrole}}'
         state: stopped
+
+    - name: Set torrent port
+      ini_file:
+        path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
+        section: Preferences
+        option: Connection\PortRangeMin
+        value: '30827'
+        state: present
 
     - name: Set SavePath
       ini_file:
