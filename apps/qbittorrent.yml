@@ -115,6 +115,14 @@
         value: '{{path.stdout}}/downloads/{{pgrole}}'
         state: present
 
+    - name: Set TempPath
+      ini_file:
+        path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
+        section: Preferences
+        option: Downloads\TempPath
+        value: '{{path.stdout}}/incomplete/{{pgrole}}'
+        state: present
+
     - name: Set TempPathEnabled
       ini_file:
         path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
