@@ -125,13 +125,6 @@
     - name: 'Setting permissions on appdata recursivley (this can take a while!)'
       shell: 'chmod -R 775 /opt/appdata/{{pgrole}}'#*check_hash\s*=.*'
 
-    - name: Low Disk - Set to 5GB
-      lineinfile:
-        path: '/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc'
-        regexp: '*schedule\s*=\s*low_diskspace.*'
-        line: 'schedule = low_diskspace,5,60,close_low_diskspace=5000M'
-        state: absent
-
     - name: Set download location
       lineinfile:
         path: '/opt/appdata/{{pgrole}}/rtorrent/rtorrent.rc'
