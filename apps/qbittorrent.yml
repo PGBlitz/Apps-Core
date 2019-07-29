@@ -16,8 +16,6 @@
         pgrole: 'qbittorrent'
         intport: '8080'
         extport: '8083'
-        intport2: '30827'
-        extport2: '30827'
         image: 'linuxserver/qbittorrent'
 
     # CORE (MANDATORY) #############################################################
@@ -75,7 +73,6 @@
         pull: yes
         published_ports:
           - '{{ports.stdout}}{{extport}}:{{intport}}'
-          - '{{extport2}}:{{intport2}}'
         volumes: '{{pg_volumes}}'
         env: '{{pg_env}}'
         restart_policy: unless-stopped
@@ -104,7 +101,7 @@
         path: '/opt/appdata/{{pgrole}}/qBittorrent/qBittorrent.conf'
         section: Preferences
         option: Connection\PortRangeMin
-        value: '30827'
+        value: '7889'
         state: present
 
     - name: Set SavePath
