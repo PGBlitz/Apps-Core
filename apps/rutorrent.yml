@@ -120,7 +120,7 @@
       shell: 'chown -R 1000:1000 /opt/appdata/{{pgrole}}'
 
     - name: 'Setting permissions on appdata recursivley (this can take a while!)'
-      shell: 'chmod -R 775 /opt/appdata/{{pgrole}}'#*check_hash\s*=.*'
+      shell: 'chmod -R 775 /opt/appdata/{{pgrole}}'
 
     - name: Set download location
       lineinfile:
