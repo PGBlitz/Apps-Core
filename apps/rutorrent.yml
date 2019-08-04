@@ -17,6 +17,8 @@
         extport: '8999'
         intport2: '5000'
         extport2: '5000'
+        intport3: '51413'
+        extport3: '51413'
         image: 'linuxserver/rutorrent'
 
     # CORE (MANDATORY) ############################################################
@@ -91,6 +93,7 @@
         published_ports:
           - '{{ports.stdout}}{{extport}}:{{intport}}'
           - '{{ports.stdout}}{{extport2}}:{{intport2}}'
+          - '{{extport3}}:{{intport3}}'
         volumes: '{{pg_volumes}}'
         env: '{{pg_env}}'
         restart_policy: unless-stopped
