@@ -94,9 +94,9 @@
     - name: 'Create {{pgrole}} correct script directory'
       file: 'path={{item}} state=directory mode=0755 owner=1000 group=1000 recurse=yes'
       with_items:
-        - '/opt/appdata/{{pgrole}}/scripts
+        - '/opt/appdata/{{pgrole}}/scripts'
 
-    # CONFIGURATION #############################################################
+  # CONFIGURATION #############################################################
     - name: 'Waiting for {{pgrole}} to initialize'
       wait_for:
         path: '/opt/appdata/{{pgrole}}/nzbget.conf'
