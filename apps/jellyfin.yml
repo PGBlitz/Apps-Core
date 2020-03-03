@@ -51,7 +51,6 @@
           - '/mnt:/mnt'
           - '/opt/appdata/{{pgrole}}:/config'
           - '/opt/transcodes:/transcode'
-          - '/var/run/docker.sock:/var/run/docker.sock'
 
     - name: 'Setting PG ENV'
       set_fact:
