@@ -91,7 +91,32 @@
         state: started
         labels: '{{pg_labels}}'
 
-    # CONFIGURATION #############################################################
+    # Correct Scripts Folder ###################################
+    - name: Check scripts folder
+      stat:
+        path: '/opt/appdata/nzbget/scripts'
+      register: scripts
+
+    - name: Overwrite existing directory
+      file: 'path={{item}} state=directory mode=0775 owner=1000 group=1000'
+      with_items:
+        - '/opt/appdata/nzbget/scripts'
+      when:
+        - scripts.stat.exists == True
+
+    - name: Install correct scripts folder
+      unarchive:
+        src: 'https://github.com/clinton-hall/GetScripts/archive/master.zip'
+        dest: '/opt/appdata/nzbget/scripts/'
+        keep_newer: yes
+        owner: '1000'
+        group: '1000'
+        mode: 0775
+        copy: no
+      when:
+        - scripts.stat.exists == True
+
+  # CONFIGURATION #############################################################
     - name: 'Waiting for {{pgrole}} to initialize'
       wait_for:
         path: '/opt/appdata/{{pgrole}}/nzbget.conf'
