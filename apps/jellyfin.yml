@@ -51,8 +51,8 @@
           - '/mnt:/mnt'
           - '/opt/appdata/{{pgrole}}:/config'
           - '/opt/transcodes:/transcode'
-          - '/dev/dri/renderD128:/dev/dri/renderD128'
-          - '/dev/dri/card0:/dev/dri/card0'
+        #  - '/dev/dri/renderD128:/dev/dri/renderD128'
+        #  - '/dev/dri/card0:/dev/dri/card0'
 
     - name: 'Setting PG ENV'
       set_fact:
