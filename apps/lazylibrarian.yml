@@ -138,8 +138,8 @@
             - name: Set minimum seeders
               ini_fil: 
                 path: 'opt/appdata/{{pgrole}}/config.ini'
-                section TORRENT
-                option numberofseeders
+                section: TORRENT
+                option: numberofseeders
                 value: '1'
                 state: present
 
