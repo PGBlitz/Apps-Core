@@ -136,7 +136,7 @@
         - name: 'Configuring downloaders'
           block:
             - name: Set minimum seeders
-              ini_fil: 
+              ini_file: 
                 path: 'opt/appdata/{{pgrole}}/config.ini'
                 section: TORRENT
                 option: numberofseeders
