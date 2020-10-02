@@ -15,7 +15,7 @@
         pgrole: 'portainer'
         intport: '9000'
         extport: '9000'
-        image: 'portainer/portainer'
+        image: 'portainer/portainer-ce:alpine'
 
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
@@ -56,6 +56,7 @@
     - name: 'Deploying {{pgrole}}'
       docker_container:
         name: '{{pgrole}}'
+        hostname: '{{pgrole}}'
         image: '{{image}}'
         pull: yes
         published_ports:
