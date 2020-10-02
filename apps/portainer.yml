@@ -15,7 +15,7 @@
         pgrole: 'portainer'
         intport: '9000'
         extport: '9000'
-        image: 'portainer/portainer'
+        image: 'portainer/portainer-ce'
 
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
