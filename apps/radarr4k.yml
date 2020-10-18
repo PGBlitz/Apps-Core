@@ -48,7 +48,6 @@
         pg_volumes:
           - '{{path.stdout}}:{{path.stdout}}'
           - '/opt/appdata/{{pgrole}}:/config/app'
-          - '/opt/appdata/{{pgrole}}/mp4_automator:/config_mp4_automator'
 
     - name: 'Setting {{pgrole}} ENV'
       set_fact:
