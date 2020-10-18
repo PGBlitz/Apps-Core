@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# Title:      PGBlitz (Reference Title File)
-# Author(s):  Admin9705
+# Title:      Netdata (Cloud update)
+# Author(s):  Admin9705/netdata
 # URL:        https://pgblitz.com - http://github.pgblitz.com
 # GNU:        General Public License v3.0
 ################################################################################
@@ -15,7 +15,7 @@
         pgrole: 'netdata'
         intport: '19999'
         extport: '19999'
-        image: 'titpetric/netdata'
+        image: 'netdata/netdata'
 
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
@@ -42,9 +42,15 @@
     - name: 'Setting PG Volumes'
       set_fact:
         pg_volumes:
-          - '/etc/localtime:/etc/localtime:ro'
-          - '/sys:/host/sys:ro'
+          - '/opt/appdata/{{pgrole}}/netdatalib:/var/lib/netdata:rw'          
+          - '/opt/appdata/{{pgrole}}/netdatacache:/var/cache/netdata:rw'
+          - '{{path.stdout}}:{{path.stdout}}'
+          - '/etc/passwd:/host/etc/passwd:ro'
+          - '/etc/group:/host/etc/group:ro'
           - '/proc:/host/proc:ro'
+          - '/sys:/host/sys:ro'
+          - '/etc/os-release:/host/etc/os-release:ro'
+          - '/etc/localtime:/etc/localtime:ro'
           - '/var/run/docker.sock:/var/run/docker.sock'
 
     - name: 'Setting PG ENV'
