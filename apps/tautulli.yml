@@ -20,13 +20,11 @@
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
       include_tasks: '/opt/coreapps/apps/_core.yml'
-
     - name: 'Including plugins '
       include_tasks: '/opt/coreapps/apps/_plugins.yml'
-
     - name: 'Checking for existing app data'
       stat:
-        path: /opt/appdata/tautulli/config.ini
+        path: /opt/appdata/{{pgrole}}/config.ini
       register: confcheck
 
     # LABELS ######################################################################
@@ -35,23 +33,31 @@
         pg_labels:
           traefik.enable: 'true'
           traefik.port: '{{intport}}'
-          traefik.frontend.auth.forward.address: '{{gauth}}'
+          #traefik.frontend.auth.forward.address: '{{gauth}}'
           traefik.frontend.rule: 'Host:{{pgrole}}.{{domain.stdout}}{{tldset}}{{cname}}'
+          traefik.frontend.headers.SSLHost: '{{domain.stdout}}'
+          traefik.frontend.headers.SSLRedirect: 'true'
+          traefik.frontend.headers.STSIncludeSubdomains: 'true'
+          traefik.frontend.headers.STSPreload: 'true'
+          traefik.frontend.headers.STSSeconds: '315360000'
+          traefik.frontend.headers.browserXSSFilter: 'true'
+          traefik.frontend.headers.contentTypeNosniff: 'true'
+          traefik.frontend.headers.customResponseHeaders: 'X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
+          traefik.frontend.headers.forceSTSHeader: 'true'
 
-    - name: 'Setting PG Volumes'
+    - name: 'Setting {{pgrole}} Volumes'
       set_fact:
         pg_volumes:
-          - '/etc/localtime:/etc/localtime:ro'
           - '/opt/appdata/{{pgrole}}:/config'
           - '/opt/appdata/plex/database/Library/Application Support/Plex Media Server/Logs:/logs'
           - '/opt/appdata/{{pgrole}}/scripts:/scripts'
+          - '/etc/localtime:/etc/localtime'
 
-    - name: 'Setting PG ENV'
+    - name: 'Setting {{pgrole}} ENV'
       set_fact:
         pg_env:
           PUID: '1000'
-          PGID: '1000'
-
+          PGID: '1000' 
     # MAIN DEPLOYMENT #############################################################
     - name: 'Deploying {{pgrole}}'
       docker_container:
@@ -70,38 +76,36 @@
         state: started
         labels: '{{pg_labels}}'
 
-    # AFTER ########################################################################
+    # Undeployed ########################################################################
     - name: 'Configuring {{pgrole}} for first time use'
       block:
         - name: 'Waiting for {{pgrole}} to start'
           wait_for:
-            path: '/opt/appdata/tautulli/config.ini'
+            path: '/opt/appdata/{{pgrole}}/config.ini'
             state: present
-
-        - name: Stop Container
+        - name: 'Stop Container'
           docker_container:
-            name: tautulli
+            name: '{{pgrole}}'
             state: stopped
-
-        # - name: set http_username
-        #   ini_file:
-        #     path: '/opt/appdata/{{pgrole}}/config.ini'
-        #     section: misc
-        #     option: http_username
-        #     value: plex
-        #     state: present
-
-        # - name: set http_password
-        #   ini_file:
-        #     path: '/opt/appdata/{{pgrole}}/config.ini'
-        #     section: misc
-        #     option: http_password
-        #     value: guide
-        #     state: present
-
-        - name: Restart {{pgrole}}
+        - name: 'Restart {{pgrole}}'
           docker_container:
             name: '{{pgrole}}'
             state: started
-
       when: not confcheck.stat.exists
+
+    - name: 'Update {{pgrole}} for first time use'
+      block:
+        - pause:
+            prompt: "Wait for {{pgrole}} start up"
+            seconds: 5
+
+        - name: 'update {{pgrole}}'
+          shell: 'docker exec {{pgrole}} apk update && docker exec {{pgrole}} apk upgrade'
+
+        - name: 'pip update for {{pgrole}}'
+          shell: 'docker exec {{pgrole}} pip install --upgrade PIP'
+
+        - name: 'pip install jsonrpclib-pelix for {{pgrole}}'
+          shell: 'docker exec {{pgrole}} pip install jsonrpclib-pelix'
+
+      when: confcheck.stat.exists

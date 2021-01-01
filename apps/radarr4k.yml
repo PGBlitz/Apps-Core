@@ -9,46 +9,29 @@
 - hosts: localhost
   gather_facts: false
   tasks:
-    # FACTS #######################################################################
+    # CORE (MANDATORY) DO NOT CHANGE ###########################################
+
     - name: 'Set Known Facts'
       set_fact:
-        pgrole: 'jackett'
-        intport: '9117'
-        extport: '9117'
-        image: 'linuxserver/jackett'
+        pgrole: 'radarr4k'
+        intport: '7878'
+        extport: '7874'
+        image: 'linuxserver/radarr:nightly'
 
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
       include_tasks: '/opt/coreapps/apps/_core.yml'
 
-    # MIGRATIONS (MANDATORY) ############################################################
-    - name: Checking for old app data
-      stat:
-        path: '/opt/appdata/{{pgrole}}/Jackett/ServerConfig.json'
-      register: olddatacheck
-
-    - name: Migrating appdata
-      shell: 'mv /opt/appdata/{{pgrole}}/Jackett/* /opt/appdata/{{pgrole}}'
-      ignore_errors: yes
-      when: olddatacheck.stat.exists
-
-    - name: Migrating appdata
-      shell: 'rmdir /opt/appdata/{{pgrole}}/Jackett'
-      ignore_errors: yes
-      when: olddatacheck.stat.exists
-
-    - name: Checking for existing app data
-      stat:
-        path: '/opt/appdata/{{pgrole}}/ServerConfig.json'
-      register: datacheck
+    - name: 'Including plugins'
+      include_tasks: '/opt/coreapps/apps/_plugins.yml'
 
     # LABELS ######################################################################
     - name: 'Adding Traefik'
       set_fact:
         pg_labels:
-          traefik.frontend.auth.forward.address: '{{gauth}}'
           traefik.enable: 'true'
           traefik.port: '{{intport}}'
+          traefik.frontend.auth.forward.address: '{{gauth}}'
           traefik.frontend.rule: 'Host:{{pgrole}}.{{domain.stdout}}{{tldset}}{{cname}}'
           traefik.frontend.headers.SSLHost: '{{domain.stdout}}'
           traefik.frontend.headers.SSLRedirect: 'true'
@@ -64,7 +47,8 @@
       set_fact:
         pg_volumes:
           - '{{path.stdout}}:{{path.stdout}}'
-          - '/opt/appdata/{{pgrole}}:/config/Jackett'
+          - '/opt/appdata/{{pgrole}}:/config'
+          - '/opt/appdata/{{pgrole}}/mp4_automator:/config_mp4_automator'
 
     - name: 'Setting {{pgrole}} ENV'
       set_fact:
@@ -73,6 +57,7 @@
           PGID: '1000'
 
     # MAIN DEPLOYMENT #############################################################
+
     - name: 'Deploying {{pgrole}}'
       docker_container:
         name: '{{pgrole}}'
@@ -90,30 +75,21 @@
         state: started
         labels: '{{pg_labels}}'
 
-    # CONFIGURATION ####################################################
-    - name: 'Waiting for {{pgrole}} to initialize'
-      wait_for:
-        path: '/opt/appdata/{{pgrole}}/ServerConfig.json'
-        state: present
-        msg: ServerConfig.json creation failed
+    - name: 'Checking for existing app data'
+      stat:
+        path: /opt/appdata/{{pgrole}}/config.xml
+      register: confcheck
 
-    - name: 'Stopping {{pgrole}}'
-      docker_container:
-        name: '{{pgrole}}'
-        state: stopped
-
-    # FIRST TIME CONFIGURATION ####################################################
-    - name: 'Configuring {{pgrole}} for first time use'
+    - name: 'Update {{pgrole}} for first time use'
       block:
-        - name: Set torrent blackhole location
-          lineinfile:
-            path: '/opt/appdata/{{pgrole}}/ServerConfig.json'
-            regexp: '\s*"BlackholeDir"\s*:.*'
-            line: '  "BlackholeDir": "{{path.stdout}}/torrent/watch",'
-            state: present
-      when: not datacheck.stat.exists
+        - pause:
+            prompt: "Wait for {{pgrole}} start up"
+            seconds: 5
 
-    - name: Restart {{pgrole}}
-      docker_container:
-        name: '{{pgrole}}'
-        state: started
+        - name: 'update owner rights for {{pgrole}}'
+          shell: 'docker exec {{pgrole}} chown -cR abc:abc /opt/radarr/'
+
+        - name: 'update permission errors for {{pgrole}}'
+          shell: 'docker exec {{pgrole}} chmod -cR 775 /opt/radarr'
+
+      when: confcheck.stat.exists

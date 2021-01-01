@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# Title:      PGBlitz (Reference Title File)
-# Author(s):  Admin9705
+# Title:      OmbiHDR
+# Author(s):  Admin9705; timekills mod
 # URL:        https://pgblitz.com - http://github.pgblitz.com
 # GNU:        General Public License v3.0
 ################################################################################
@@ -10,45 +10,41 @@
   gather_facts: false
   tasks:
     # FACTS #######################################################################
+
     - name: 'Set Known Facts'
       set_fact:
-        pgrole: 'jackett'
-        intport: '9117'
-        extport: '9117'
-        image: 'linuxserver/jackett'
+        pgrole: 'ombiHDR'
+        intport: '3579'
+        extport: '3581'
+        image: 'linuxserver/ombi'
 
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
       include_tasks: '/opt/coreapps/apps/_core.yml'
 
-    # MIGRATIONS (MANDATORY) ############################################################
-    - name: Checking for old app data
+    # PRETASKS ####################################################################
+    - name: Check JSON exists
       stat:
-        path: '/opt/appdata/{{pgrole}}/Jackett/ServerConfig.json'
-      register: olddatacheck
+        path: '/opt/appdata/{{pgrole}}/appsettings.json'
+      register: jsonfile
 
-    - name: Migrating appdata
-      shell: 'mv /opt/appdata/{{pgrole}}/Jackett/* /opt/appdata/{{pgrole}}'
-      ignore_errors: yes
-      when: olddatacheck.stat.exists
-
-    - name: Migrating appdata
-      shell: 'rmdir /opt/appdata/{{pgrole}}/Jackett'
-      ignore_errors: yes
-      when: olddatacheck.stat.exists
-
-    - name: Checking for existing app data
-      stat:
-        path: '/opt/appdata/{{pgrole}}/ServerConfig.json'
-      register: datacheck
+    - name: 'Download {{pgrole}} appsettings.json config file'
+      get_url:
+        url: https://raw.githubusercontent.com/tidusjar/Ombi/master/src/Ombi/appsettings.json
+        dest: /opt/appdata/{{pgrole}}/appsettings.json
+        owner: '1000'
+        group: '1000'
+        force: no
+      ignore_errors: True
+      when: jsonfile.stat.exists == False
 
     # LABELS ######################################################################
     - name: 'Adding Traefik'
       set_fact:
         pg_labels:
-          traefik.frontend.auth.forward.address: '{{gauth}}'
           traefik.enable: 'true'
           traefik.port: '{{intport}}'
+          traefik.frontend.auth.forward.address: '{{gauth}}'
           traefik.frontend.rule: 'Host:{{pgrole}}.{{domain.stdout}}{{tldset}}{{cname}}'
           traefik.frontend.headers.SSLHost: '{{domain.stdout}}'
           traefik.frontend.headers.SSLRedirect: 'true'
@@ -63,8 +59,8 @@
     - name: 'Setting {{pgrole}} Volumes'
       set_fact:
         pg_volumes:
-          - '{{path.stdout}}:{{path.stdout}}'
-          - '/opt/appdata/{{pgrole}}:/config/Jackett'
+          - '/opt/appdata/{{pgrole}}:/config'
+          - '/opt/appdata/{{pgrole}}/appsettings.json:/opt/{{pgrole}}/appsettings.json'
 
     - name: 'Setting {{pgrole}} ENV'
       set_fact:
@@ -73,6 +69,7 @@
           PGID: '1000'
 
     # MAIN DEPLOYMENT #############################################################
+
     - name: 'Deploying {{pgrole}}'
       docker_container:
         name: '{{pgrole}}'
@@ -89,31 +86,3 @@
               - '{{pgrole}}'
         state: started
         labels: '{{pg_labels}}'
-
-    # CONFIGURATION ####################################################
-    - name: 'Waiting for {{pgrole}} to initialize'
-      wait_for:
-        path: '/opt/appdata/{{pgrole}}/ServerConfig.json'
-        state: present
-        msg: ServerConfig.json creation failed
-
-    - name: 'Stopping {{pgrole}}'
-      docker_container:
-        name: '{{pgrole}}'
-        state: stopped
-
-    # FIRST TIME CONFIGURATION ####################################################
-    - name: 'Configuring {{pgrole}} for first time use'
-      block:
-        - name: Set torrent blackhole location
-          lineinfile:
-            path: '/opt/appdata/{{pgrole}}/ServerConfig.json'
-            regexp: '\s*"BlackholeDir"\s*:.*'
-            line: '  "BlackholeDir": "{{path.stdout}}/torrent/watch",'
-            state: present
-      when: not datacheck.stat.exists
-
-    - name: Restart {{pgrole}}
-      docker_container:
-        name: '{{pgrole}}'
-        state: started

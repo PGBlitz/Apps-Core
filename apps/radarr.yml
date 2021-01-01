@@ -16,7 +16,7 @@
         pgrole: 'radarr'
         intport: '7878'
         extport: '7878'
-        image: 'linuxserver/radarr:preview'
+        image: 'linuxserver/radarr:nightly'
 
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
@@ -29,9 +29,9 @@
     - name: 'Adding Traefik'
       set_fact:
         pg_labels:
-          traefik.frontend.auth.forward.address: '{{gauth}}'
           traefik.enable: 'true'
           traefik.port: '{{intport}}'
+          traefik.frontend.auth.forward.address: '{{gauth}}'
           traefik.frontend.rule: 'Host:{{pgrole}}.{{domain.stdout}}{{tldset}}{{cname}}'
           traefik.frontend.headers.SSLHost: '{{domain.stdout}}'
           traefik.frontend.headers.SSLRedirect: 'true'
@@ -43,16 +43,14 @@
           traefik.frontend.headers.customResponseHeaders: 'X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
           traefik.frontend.headers.forceSTSHeader: 'true'
 
-    - name: 'Setting PG Volumes'
+    - name: 'Setting {{pgrole}} Volumes'
       set_fact:
         pg_volumes:
-          - '/etc/localtime:/etc/localtime:ro'
           - '{{path.stdout}}:{{path.stdout}}'
-          - '/mnt:/mnt'
           - '/opt/appdata/{{pgrole}}:/config'
           - '/opt/appdata/{{pgrole}}/mp4_automator:/config_mp4_automator'
 
-    - name: 'Setting PG ENV'
+    - name: 'Setting {{pgrole}} ENV'
       set_fact:
         pg_env:
           PUID: '1000'
@@ -76,3 +74,14 @@
               - '{{pgrole}}'
         state: started
         labels: '{{pg_labels}}'
+
+    - name: 'Checking for existing app data'
+      stat:
+        path: /opt/appdata/{{pgrole}}/config.xml
+      register: confcheck
+
+    - name: 'Update {{pgrole}} for first time use'
+      block:
+        - pause:
+            prompt: "Wait for {{pgrole}} start up"
+            seconds: 5

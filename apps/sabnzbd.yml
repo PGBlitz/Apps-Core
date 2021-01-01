@@ -16,7 +16,7 @@
         pgrole: 'sabnzbd'
         intport: '8080'
         extport: '8080'
-        image: 'linuxserver/sabnzbd'
+        image: 'linuxserver/sabnzbd:latest'
 
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
@@ -36,16 +36,16 @@
 
     - name: 'Checking for existing app data'
       stat:
-        path: /opt/appdata/sabnzbd/sabnzbd.ini
+        path: /opt/appdata/{{pgrole}}/sabnzbd.ini
       register: inicheck
 
     # LABELS ######################################################################
-
     - name: 'Adding Traefik'
       set_fact:
         pg_labels:
           traefik.enable: 'true'
           traefik.port: '{{intport}}'
+          traefik.frontend.auth.forward.address: '{{gauth}}'
           traefik.frontend.rule: 'Host:{{pgrole}}.{{domain.stdout}}{{tldset}}{{cname}}'
           traefik.frontend.headers.SSLHost: '{{domain.stdout}}'
           traefik.frontend.headers.SSLRedirect: 'true'
@@ -57,17 +57,13 @@
           traefik.frontend.headers.customResponseHeaders: 'X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
           traefik.frontend.headers.forceSTSHeader: 'true'
 
-          traefik.frontend.auth.forward.address: '{{gauth}}'
-
-    - name: 'Setting PG Volumes'
+    - name: 'Setting {{pgrole}} Volumes'
       set_fact:
         pg_volumes:
-          - '/etc/localtime:/etc/localtime:ro'
           - '{{path.stdout}}:{{path.stdout}}'
-          - '/mnt:/mnt'
           - '/opt/appdata/{{pgrole}}:/config'
 
-    - name: 'Setting PG ENV'
+    - name: 'Setting {{pgrole}} ENV'
       set_fact:
         pg_env:
           PUID: '1000'
@@ -171,6 +167,22 @@
             value: 1
             state: present
 
+        - name: Set max logging lines
+          ini_file:
+            path: '/opt/appdata/{{pgrole}}/sabnzbd.ini'
+            section: misc
+            option: max_log_size
+            value: 524
+            state: present
+
+        - name: Set max logging days
+          ini_file:
+            path: '/opt/appdata/{{pgrole}}/sabnzbd.ini'
+            section: misc
+            option: log_backups
+            value: 1
+            state: present
+
         - name: set unwanted_extensions
           ini_file:
             path: '/opt/appdata/{{pgrole}}/sabnzbd.ini'
@@ -185,6 +197,14 @@
             section: misc
             option: cleanup_list
             value: nfo, exe, com, bat, txt, doc, xls, xlxs, docx, doc, jpg, jeg, gif, png
+            state: present
+
+        - name: set Cache Limit to 4G
+          ini_file:
+            path: '/opt/appdata/{{pgrole}}/sabnzbd.ini'
+            section: misc
+            option: cache_limit
+            value: 4G
             state: present
 
         - name: set action_on_unwanted_extensions

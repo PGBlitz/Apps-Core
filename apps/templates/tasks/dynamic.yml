@@ -1,0 +1,21 @@
+  - name: Update APT package cache
+    apt: update_cache=yes cache_valid_time=600
+
+  - name: Upgrade APT to the latest packages
+    apt: upgrade=dist
+    register: apt_result
+
+  - name: Install a list of packages
+    command: apt-get install -y jq dnsutils ctop
+    register: apt_result
+    changed_when: "'packages will be installed' in apt_result.stdout"
+
+  - name: Autoremove unused packages
+    command: apt-get -y autoremove
+    register: apt_result
+    changed_when: "'packages will be REMOVED' in apt_result.stdout"
+
+  - name: Purge residual kernel packages
+    shell: apt-get remove -y --purge $(dpkg -l | grep "^rc\s*linux-image-" | awk '{print $2}' | tr '\n' ' ')
+    register: apt_result
+    changed_when: "'packages will be REMOVED' in apt_result.stdout"
