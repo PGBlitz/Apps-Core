@@ -60,15 +60,13 @@
           traefik.frontend.headers.customResponseHeaders: 'X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
           traefik.frontend.headers.forceSTSHeader: 'true'
 
-    - name: 'Setting PG Volumes'
+    - name: 'Setting {{pgrole}} Volumes'
       set_fact:
         pg_volumes:
-          - '/etc/localtime:/etc/localtime:ro'
           - '{{path.stdout}}:{{path.stdout}}'
-          - '/mnt:/mnt'
           - '/opt/appdata/{{pgrole}}:/config/Jackett'
 
-    - name: 'Setting PG ENV'
+    - name: 'Setting {{pgrole}} ENV'
       set_fact:
         pg_env:
           PUID: '1000'

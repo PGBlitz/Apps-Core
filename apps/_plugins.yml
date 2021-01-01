@@ -6,16 +6,27 @@
 
 - name: 'Check if Templates Exist for {{pgrole}}'
   stat:
-    path: './templates/{{pgrole}}'
+    path: '/opt/coreapps/apps/templates/{{pgrole}}'
   register: copycheck
 
 - name: 'Copying Scripts & Plugins'
   copy:
-    src: ./templates/{{pgrole}}
-    dest: /opt/appdata
+    src: '/opt/coreapps/apps/templates/{{pgrole}}'
+    dest: '/opt/appdata/'
     directory_mode: yes
     force: yes
     owner: '1000'
     group: '1000'
     mode: 0775
   when: copycheck.stat.exists
+
+# scripts permissions
+- name: 'Setting permissions on scripts'
+  shell: 'chmod -R 775 /opt/appdata/{{pgrole}}/scripts'
+- name: 'Setting permissions on plugins for {{pgrole}}'
+  shell: 'chmod -R 775 /opt/appdata/{{pgrole}}/plugins'
+
+- name: set owner rights on script folder for {{pgrole}}'
+  shell: 'chown -cR 1000:1000 /opt/appdata/{{pgrole}}/scripts'
+- name: set permission on plugin folder for {{pgrole}}'
+  shell: 'chown -cR 1000:1000 /opt/appdata/{{pgrole}}/plugins'

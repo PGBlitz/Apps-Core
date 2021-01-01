@@ -1,0 +1,73 @@
+    - name: creating tmp dir for clones
+      shell: mkdir -p /tmp/nzbget
+
+    - name: Cloning revers_name.py
+      unarchive:
+        src: https://github.com/Prinz23/nzbget-pp-reverse/archive/master.zip
+        dest: /tmp/nzbget
+        keep_newer: no
+        owner: '1000'
+        group: '1000'
+        mode: 0775
+        copy: no
+
+    - name: Cloning Passwort Detector.py
+      unarchive:
+        src: https://github.com/JVMed/PasswordDetector/archive/master.zip
+        dest: /tmp/nzbget
+        keep_newer: no
+        owner: '1000'
+        group: '1000'
+        mode: 0775
+        copy: no
+
+    - name: Cloning Fake Detctor.py
+      unarchive:
+        src: https://github.com/Prinz23/FakeDetector/archive/master.zip
+        dest: /tmp/nzbget
+        keep_newer: no
+        owner: '1000'
+        group: '1000'
+        mode: 0775
+        copy: no
+
+    - name: Cloning lot of scripts
+      unarchive:
+        src: https://github.com/clinton-hall/GetScripts/archive/master.zip
+        dest: /tmp/nzbget
+        keep_newer: no
+        owner: '1000'
+        group: '1000'
+        mode: 0775
+        copy: no
+
+    - name: passwort detector installing
+      copy:
+        src: '/tmp/nzbget/PasswordDetector-master/'
+        dest: '/opt/appdata/nzbget/scripts'
+        force: yes
+
+    - name: revers_master
+      copy:
+        src: '/tmp/nzbget/nzbget-pp-reverse-master/'
+        dest: '/opt/appdata/nzbget/scripts'
+        force: yes
+
+    - name: lot of useful scriptss
+      copy:
+        src: '/tmp/nzbget/GetScripts-master/'
+        dest: '/opt/appdata/nzbget/scripts'
+        force: yes
+
+    - name: FakeDetector installing
+      copy:
+       src: '/tmp/nzbget/FakeDetector-master/'
+       dest: '/opt/appdata/nzbget/scripts'
+       force: yes
+
+    - name: remove temp folder
+      shell: rm -rf /tmp/nzbget
+
+    # scripts permissions
+    - name: 'Setting permissions on scripts'
+      shell: 'chmod -R 775 /opt/appdata/nzbget/scripts'

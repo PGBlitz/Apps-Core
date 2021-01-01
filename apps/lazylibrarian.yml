@@ -30,9 +30,9 @@
     - name: 'Adding Traefik'
       set_fact:
         pg_labels:
-          traefik.frontend.auth.forward.address: '{{gauth}}'
           traefik.enable: 'true'
           traefik.port: '{{intport}}'
+          traefik.frontend.auth.forward.address: '{{gauth}}'
           traefik.frontend.rule: 'Host:{{pgrole}}.{{domain.stdout}}{{tldset}}{{cname}}'
           traefik.frontend.headers.SSLHost: '{{domain.stdout}}'
           traefik.frontend.headers.SSLRedirect: 'true'
@@ -44,15 +44,13 @@
           traefik.frontend.headers.customResponseHeaders: 'X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
           traefik.frontend.headers.forceSTSHeader: 'true'
 
-    - name: 'Setting PG Volumes'
+    - name: 'Setting {{pgrole}} Volumes'
       set_fact:
         pg_volumes:
-          - '/etc/localtime:/etc/localtime:ro'
           - '{{path.stdout}}:{{path.stdout}}'
-          - '/mnt:/mnt'
           - '/opt/appdata/{{pgrole}}:/config'
 
-    - name: 'Setting PG ENV'
+    - name: 'Setting {{pgrole}} ENV'
       set_fact:
         pg_env:
           PUID: '1000'
@@ -135,14 +133,6 @@
 
         - name: 'Configuring downloaders'
           block:
-            - name: Set minimum seeders
-              ini_file: 
-                path: '/opt/appdata/{{pgrole}}/config.ini'
-                section: TORRENT
-                option: numberofseeders
-                value: '1'
-                state: present
-
             - name: Set deluge host
               ini_file:
                 path: '/opt/appdata/{{pgrole}}/config.ini'

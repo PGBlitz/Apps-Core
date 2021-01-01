@@ -15,6 +15,8 @@
         pgrole: 'emby'
         intport: '8096'
         extport: '8096'
+        intport2: '8920'
+        extport2: '8920'
         image: 'emby/embyserver'
 
     # CORE (MANDATORY) ############################################################
@@ -27,7 +29,7 @@
       register: xmlcheck
 
     # LABELS ######################################################################
-    - name: 'Adding Traefik'
+    - name: 'Adding Traefik for {{pgrole}}'
       set_fact:
         pg_labels:
           traefik.enable: 'true'
@@ -43,24 +45,24 @@
           traefik.frontend.headers.customResponseHeaders: 'X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
           traefik.frontend.headers.forceSTSHeader: 'true'
 
-    - name: 'Setting PG Volumes'
+    - name: 'Setting {{pgrole}} Volumes'
       set_fact:
         pg_volumes:
-          - '/etc/localtime:/etc/localtime:ro'
           - '{{path.stdout}}:{{path.stdout}}'
-          - '/mnt:/mnt'
           - '/opt/appdata/{{pgrole}}:/config'
           - '/opt/transcodes:/transcode'
 
-    - name: 'Setting PG ENV'
+    - name: 'Setting {{pgrole}} ENV'
       set_fact:
         pg_env:
           UID: '1000'
           GID: '1000'
           GIDLIST: '1000'
+          NVIDIA_VISIBLE_DEVICES: 'all'
+          NVIDIA_DRIVER_CAPABILITIES: 'compute,video,utility'
 
     # MAIN DEPLOYMENT #############################################################
-    - name: 'Check'
+    - name: Check /dev/dri exists
       stat:
         path: '/dev/dri'
       register: dev_dri
@@ -72,15 +74,18 @@
         pull: yes
         published_ports:
           - '{{ports.stdout}}{{extport}}:{{intport}}'
+          - '{{ports.stdout}}{{extport2}}:{{intport2}}'
         devices: "{{ '/dev/dri:/dev/dri' if dev_dri.stat.exists == True | default(false) else omit }}"
         volumes: '{{pg_volumes}}'
         env: '{{pg_env}}'
+        purge_networks: yes
         restart_policy: unless-stopped
         networks:
           - name: plexguide
             aliases:
               - '{{pgrole}}'
         expose: '8096'
+        expose: '8920'
         state: started
         labels: '{{pg_labels}}'
 

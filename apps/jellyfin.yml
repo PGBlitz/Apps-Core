@@ -43,18 +43,15 @@
           traefik.frontend.headers.customResponseHeaders: 'X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
           traefik.frontend.headers.forceSTSHeader: 'true'
 
-    - name: 'Setting PG Volumes'
+    - name: 'Setting {{pgrole}} Volumes'
       set_fact:
         pg_volumes:
-          - '/etc/localtime:/etc/localtime:ro'
           - '{{path.stdout}}:{{path.stdout}}'
-          - '/mnt:/mnt'
           - '/opt/appdata/{{pgrole}}:/config'
           - '/opt/transcodes:/transcode'
-        #  - '/dev/dri/renderD128:/dev/dri/renderD128'
-        #  - '/dev/dri/card0:/dev/dri/card0'
+          - '/var/run/docker.sock:/var/run/docker.sock'
 
-    - name: 'Setting PG ENV'
+    - name: 'Setting {{pgrole}} ENV'
       set_fact:
         pg_env:
           GIDLIST: '1000'

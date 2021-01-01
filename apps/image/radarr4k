@@ -1,0 +1,4 @@
+linuxserver/radarr:nightly
+linuxserver/radarr
+aront/radarr
+hotio/radarr:musl

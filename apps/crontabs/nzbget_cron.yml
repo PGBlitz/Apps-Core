@@ -1,0 +1,20 @@
+#!/bin/bash
+#
+# Title:      NZBGet Crontab remove logs daily
+# Authors:    MrDoob
+# GNU:        General Public License v3.0
+################################################################################
+---
+- cron:
+    name: Daily Remove {{pgrole}} logs
+    special_time: 'daily'
+    job: 'truncate -s 0 /opt/appdata/nzbget/nzbget.log'
+    state: absent
+  ignore_errors: yes
+
+- cron:
+    name: Daily Remove {{pgrole}} logs
+    special_time: 'daily'
+    job: 'truncate -s 0 /opt/appdata/nzbget/nzbget.log 1>/dev/null 2>&1'
+    state: present
+  ignore_errors: yes
