@@ -2,7 +2,6 @@
 #
 # Title:      LSIO Plex with HEALTHCHECK Flag
 # Author(s):  Admin9705
-# Moded:      MrDoob for ptS-Comm
 # URL:        https://pgblitz.com - http://github.pgblitz.com
 # GNU:        General Public License v3.0
 ################################################################################
@@ -223,7 +222,7 @@
       set_fact:
         customConnections: 'none'
       when: customConnections is undefined
-      
+
     ######################################### DEPLOY PLEX REMOTE (ANSWER 2)
     - name: Deploy {{pgrole}} - Container (Remote Edition)
       docker_container:
@@ -376,4 +375,4 @@
 
       #### EOF Bundle ADD
 
-    - debug: msg="Final Notes - {{servertype.stdout}} Plex | IP Address {{ipaddress.stdout}} | Token {{claim.stdout}} | Update level {{updateplex.stdout}}"
+    - debug: msg="Final Notes - {{servertype.stdout}} Plex | IP Address {{ipaddress.stdout}} | Token {{claim.stdout}} | Update level : latest"
