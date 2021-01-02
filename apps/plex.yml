@@ -64,7 +64,6 @@
           #  linuxserver.io enable linuxserver.io compatability. #
           PUID: '1000'
           PGID: '1000'
-          DOCKER_MODS: 'justinglock40/lsioplexmod:latest'
 
     - name: Check {{pgrole}}-preferences.xml exists
       stat:
@@ -244,12 +243,6 @@
           - name: plexguide
             aliases:
               - plex
-        healthcheck:
-          test: "curl --silent --show-error --fail 'http://localhost:32400/identity' >/dev/null || exit 1"
-          interval: '5s'
-          timeout: '2s'
-          retries: '20'
-          start_period: '20s'
         volumes: '{{default_volumes}}'
         devices: "{{ '/dev/dri:/dev/dri' if dev_dri.stat.exists == True | default(false) else omit }}"
         etc_hosts:
@@ -279,12 +272,6 @@
           - name: plexguide
             aliases:
               - plex
-        healthcheck:
-          test: "curl --silent --show-error --fail 'http://localhost:32400/identity' >/dev/null || exit 1"
-          interval: '5s'
-          timeout: '2s'
-          retries: '20'
-          start_period: '20s'
         volumes: '{{default_volumes}}'
         devices: "{{ '/dev/dri:/dev/dri' if dev_dri.stat.exists == True | default(false) else omit }}"
         etc_hosts:
@@ -294,83 +281,12 @@
         labels: '{{default_labels}}'
       when: servertype.stdout == "local"
 
-     ##### Db edits 
-    - name: "Install package for {{pgrole}}-db Cache size Fix"
-      apt:
-        name: "{{ packages }}"
-        state: latest
-        update_cache: yes
-      vars:
-        packages:
-        - sqlite3
-
-    - name: Get Current {{pgrole}} DB Cache Size
-      shell: |
-        sqlite3 "/opt/appdata/plex/database/Library/Application Support/Plex Media Server/Plug-in Support/Databases/com.plexapp.plugins.library.db" \
-        "PRAGMA default_cache_size;"
-      args:
-        executable: /bin/bash
-      register: current_db_cache_size
-
-    - name: Set 'default_db_cache_size' variable
-      set_fact:
-        default_db_cache_size: '6000'
-
-    - name: Check if 'plex.db_cache_size' was specified
-      set_fact:
-        db_cache_size_is_specified: "{{ true if not (
-            (plex.db_cache_size is undefined)
-            or
-            (plex.db_cache_size is none)
-            or
-            (plex.db_cache_size | trim | length == 0)
-          )
-          else false }}"
-
-    - name: Get Desired {{pgrole}} DB Cache Size
-      set_fact:
-        desired_db_cache_size: "{{ default_db_cache_size
-          if ( (not db_cache_size_is_specified) or (plex.db_cache_size == 'default') )
-          else ( (plex.db_cache_size) | regex_replace(',', '') | int ) }}"
-
-    - name: Make {{pgrole}} DB Edits
-      block:
-
-      - name: Stop {{pgrole}} Container
-        docker_container:
-          name: plex
-          state: stopped
-        when: ('plex_db_cache_size' in ansible_run_tags)
-
-      - name: Display Desired Plex DB Cache Size
-        debug:
-          msg: "Desired Plex DB Cache Size is '{{ desired_db_cache_size }}'"
-
-      - name: "Set {{pgrole}} DB Cache Size"
-        shell: |
-          sqlite3 "/opt/appdata/plex/database/Library/Application Support/Plex Media Server/Plug-in Support/Databases/com.plexapp.plugins.library.db" \
-            "PRAGMA default_cache_size = '{{ desired_db_cache_size | int }}';"
-        args:
-          executable: /bin/bash
-
-      - name: Get New {{pgrole}} DB Cache Size
-        shell: |
-          sqlite3 "/opt/appdata/plex/database/Library/Application Support/Plex Media Server/Plug-in Support/Databases/com.plexapp.plugins.library.db" \
-            "PRAGMA default_cache_size;"
-        args:
-          executable: /bin/bash
-        register: new_db_cache_size
-
-      - name: Display New {{pgrole}} DB Cache Size
-        debug:
-          msg: "Plex DB cache size is now set to '{{ new_db_cache_size.stdout | int }}'."
-
-       #####EOF.DB.EDITS
-
       - name: Start {{pgrole}} Container
         docker_container:
           name: plex
           state: started
         when: ('plex_db_cache_size' in ansible_run_tags)
+
+      #### EOF Bundle ADD
 
     - debug: msg="Final Notes - {{servertype.stdout}} Plex | IP Address {{ipaddress.stdout}} | Token {{claim.stdout}}"
