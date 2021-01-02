@@ -373,6 +373,4 @@
           state: started
         when: ('plex_db_cache_size' in ansible_run_tags)
 
-      #### EOF Bundle ADD
-
-    - debug: msg="Final Notes - {{servertype.stdout}} Plex | IP Address {{ipaddress.stdout}} | Token {{claim.stdout}} | Update level : latest"
+    - debug: msg="Final Notes - {{servertype.stdout}} Plex | IP Address {{ipaddress.stdout}} | Token {{claim.stdout}}"
